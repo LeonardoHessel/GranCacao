@@ -1,5 +1,5 @@
-CREATE DATABASE `webapp` DEFAULT CHARACTER SET utf8mb4 ;
-USE `webapp` ;
+CREATE DATABASE `grancacao` DEFAULT CHARACTER SET utf8mb4 ;
+USE `grancacao` ;
 
 CREATE TABLE `usuario` (
 	`idusuario` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

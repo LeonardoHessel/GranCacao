@@ -39,7 +39,14 @@ CREATE TABLE IF NOT EXISTS `telefoneusuario` (
     CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (usuario) REFERENCES `usuario`(id)
 )ENGINE = InnoDB;
 
-
+DROP TABLE IF EXISTS `produto`;
+CREATE TABLE IF NOT EXISTS `produto` (
+	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `nome`VARCHAR(250) NOT NULL,
+    `valor` DECIMAL(5,2) NOT NULL,
+    `descricao` VARCHAR(250),    
+    `categoria` INT
+)ENGINE = InnoDB;
 
 
 
