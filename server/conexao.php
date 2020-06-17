@@ -3,11 +3,12 @@
 class Conexao
 {
     const servidor = 'localhost';
-    const nomebd = 'webstore';
+    const nomebd = 'grancacao';
     const caracteres = 'utf8mb4';
     const usuario = 'root';
     const senha = '';
     public static $PDO;
+    public static $msg;
 
     public static function getPDO()
     {
@@ -21,7 +22,8 @@ class Conexao
                     self::senha
                 );
             } catch (PDOException $erro) {
-                die("<br>Falha ao Conectar, código: " . $erro->getcode());
+                self::$msg = "Falha ao Conectar, código: ".$erro->getcode();
+                return false;
             }
         }
         return self::$PDO;

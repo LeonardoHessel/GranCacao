@@ -6,11 +6,11 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(250) NOT NULL UNIQUE,
-  `senha` VARCHAR(250) NOT NULL,
+  `senha` CHAR(40) NOT NULL,
   `nome` VARCHAR(45),
-  `token` VARCHAR(250),
-  `status` SET('Confirmado', 'Aguradando confirmação'),
-  `del` BOOL
+  `token` CHAR(64),
+  `status` SET('Confirmado', 'Não confirmado') DEFAULT 'Não confirmado',
+  `del` BOOL DEFAULT FALSE
 )ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `usuario_endereco`;
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `usuario_endereco` (
     `uf` CHAR(2) NOT NULL,
     `ibge` CHAR(7) NOT NULL,
     `totalentregas` INT,
-    `del` BOOL,
+    `del` BOOL DEFAULT FALSE,
     CONSTRAINT `fk_usuario_endereco` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
 )ENGINE = InnoDB;
 
@@ -35,8 +35,18 @@ CREATE TABLE IF NOT EXISTS `usuario_telefone` (
     `usuario` INT NOT NULL,
     `ddd` varchar(3),
     `numero` VARCHAR(9),
-    `del` BOOL,
+    `del` BOOL DEFAULT FALSE,
     CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
+)ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `usuario_dispositivo`;
+CREATE TABLE IF NOT EXISTS `usuario_dispositivo` (
+	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `usuario` INT NOT NULL,
+    `token` CHAR(64) NOT NULL,
+    `validade` DATE NOT NULL,
+    `del` BOOL DEFAULT FALSE,
+    CONSTRAINT `fk_usuario_dispositivo` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
 )ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `produto`;
@@ -46,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `produto` (
     `valor` DECIMAL(5,2) NOT NULL,
     `descricao` VARCHAR(250),    
     `categoria` INT,
-    `del` BOOL
+    `del` BOOL DEFAULT FALSE
 )ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `pedido`;
@@ -56,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `pedido` (
     `qtdItens` INT,
     `valorTotal` DECIMAL(5,2),
     `situacao` SET('Concluído','Aberto'),
-    `del` BOOL,
+    `del` BOOL DEFAULT FALSE,
     CONSTRAINT `fk_usuario_pedido` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
 )ENGINE = InnoDB;
 
@@ -68,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido` (
     `qtdProd` INT NOT NULL,
     `valorUn` DECIMAL(5,2),
     `subToatal` DECIMAL(5,2),
-    `del` BOOL,
+    `del` BOOL DEFAULT FALSE,
     CONSTRAINT `fk_pedido_item` FOREIGN KEY (`pedido`) REFERENCES `pedido`(`id`),
     CONSTRAINT `fk_produto_item` FOREIGN KEY (`produto`) REFERENCES `produto`(`id`)
 )ENGINE = InnoDB;
