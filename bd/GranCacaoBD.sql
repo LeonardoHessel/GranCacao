@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(250) NOT NULL UNIQUE,
-  `senha` CHAR(40) NOT NULL,
+  `senha` CHAR(64) NOT NULL,
   `nome` VARCHAR(45),
   `token` CHAR(64),
   `status` SET('Confirmado', 'Não confirmado') DEFAULT 'Não confirmado',
@@ -41,11 +41,10 @@ CREATE TABLE IF NOT EXISTS `usuario_telefone` (
 
 DROP TABLE IF EXISTS `usuario_dispositivo`;
 CREATE TABLE IF NOT EXISTS `usuario_dispositivo` (
-	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `usuario` INT NOT NULL,
+	`usuario` INT NOT NULL,
     `token` CHAR(64) NOT NULL,
     `validade` DATE NOT NULL,
-    `del` BOOL DEFAULT FALSE,
+    PRIMARY KEY (`usuario`,`token`),
     CONSTRAINT `fk_usuario_dispositivo` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
 )ENGINE = InnoDB;
 
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido` (
 
 
 
-
+/*select DATE(DATE_ADD(NOW(), INTERVAL 15 DAY));*/
 
 
 /*
