@@ -7,7 +7,8 @@ require_once 'functions.php';
 // Tenta cadastrar usuario.
 function tryRegisterUser() {
     extract($_POST);
-    // limpeza de dados.
+    $email = htmlspecialchars($email);
+    $senha = htmlspecialchars($senha);
     if (isset($email,$senha)) {
         if (!isRegistered($email)){
             $senha = hash('sha256', $senha);
@@ -23,17 +24,19 @@ function tryRegisterUser() {
 // Tenta logar o usuario.
 function tryLoginUser() {
     extract($_POST);
-    // limpeza de dados.
+    $email = htmlspecialchars($email);
+    $senha = htmlspecialchars($senha);
+    $setCookie = htmlspecialchars($setCookie);
     if (isset($email,$senha,$setCookie)) {
         $senha = hash('sha256', $senha);
         $user = getUser($email,$senha);
         if ($user) {
-            $resp["id"] = $user->id;
+            $resp["user"] = true;
             if ($setCookie == "true") {
                 setDeviceCookie($user->id);
             }
         } else {
-            $resp["id"] = false;
+            $resp["user"] = false;
         }
         arrayJSON($resp);
     }
@@ -42,7 +45,8 @@ function tryLoginUser() {
 // Faz logout do usuario.
 function logoutUser() {
     extract($_COOKIE);
-    // limpeza de dados.
+    $user = htmlspecialchars($user);
+    $device = htmlspecialchars($device);
     if (isset($user,$device)) {
         dropDeviceCookies($user,$device);
     }
@@ -53,11 +57,14 @@ function logoutUser() {
 // Faz a checagem do usuario.
 function checkUser() {
     extract($_COOKIE);
-    // limpeza de dados.
+    $user = htmlspecialchars($user);
+    $device = htmlspecialchars($device);
     if (isset($user,$device)){
         $resp["user"] = checkDeviceCookie($user,$device);
-        arrayJSON($resp);
+    } else {
+        $resp["user"] = false;
     }
+    arrayJSON($resp);
 }
 
 // Tranforma um array em JSON e termina o script.

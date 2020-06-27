@@ -2,23 +2,34 @@ var url = 'http://grancacao/server/webservice.php'
 var methodType = 'post'
 
 function verifCookie() {
-    $.post(url, { type: 'verif_cookie' }).done(function (resp) {
+    $.post(url, { req: 'check_user' }).done(function (resp) {
         let json = $.parseJSON(resp)
-        if (json.cookie) {
-            alert("Tem cookie")
+        if (json.user) {
+            window.location.href = "http://grancacao/app_View"
+        }
+    })
+}
+
+function cadastrarUsuario(email, senha) {
+    $.post(url, { req: 'reg_user', email: email, senha: senha }).done(function (resp) {
+        let json = $.parseJSON(resp)
+        if (json.record) {
+            alert("Cadastro realizado com sucesso!\n Faça login para acessar!")
+            window.location.href = "http://grancacao/app_Login/"
         } else {
-            alert("Não tem cookie")
+            alert("Falha ao realizar cadastro.")
         }
     })
 }
 
 function logarUser(email, senha) {
-    $.post(url, { type: 'logar_user', email: email, senha: senha }).done(function (resp) {
+    $.post(url, { req: 'login_user', email: email, senha: senha, setCookie: true }).done(function (resp) {
         let json = $.parseJSON(resp)
-        if (json.login) {
-            alert('login válido')
+        if (json.user) {
+            verifCookie()
         } else {
-            alert('login inválido')
+            // usuario inválido
         }
     })
 }
+

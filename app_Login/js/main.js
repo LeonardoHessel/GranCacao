@@ -8,6 +8,10 @@ function validaSenha(senha) {
 }
 
 $(document).ready(function () {
+    $("form").submit(function (e) {
+        e.preventDefault()
+    })
+
     verifCookie()
     $('.message a').click(function () {
         $('form').animate({ height: "toggle", opacity: "toggle" }, "slow")
@@ -23,12 +27,22 @@ $(document).ready(function () {
             error.push('senha')
         }
         if (error.length == 0) {
-            alert("chamando funcoes.js")
-            CadastrarUsuario(email, senha)
+            cadastrarUsuario(email, senha)
         }
     })
     $("#btnLogar").click(function () {
-        alert("teste Logar")
+        let error = []
+        let email = $('#logEmail').val()
+        let senha = $('#logSenha').val()
+        if (!validaEmail(email)) {
+            error.push('email')
+        }
+        // // if (!validaSenha(senha)) {
+        // //     error.push('senha')
+        // // }
+        if (error.length == 0) {
+            logarUser(email, senha)
+        }
     })
 })
 
