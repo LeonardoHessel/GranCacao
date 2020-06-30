@@ -16,6 +16,9 @@ $(document).ready(function () {
     $('.message a').click(function () {
         $('form').animate({ height: "toggle", opacity: "toggle" }, "slow")
     })
+
+
+
     $("#btnCadastrar").click(function () {
         let error = []
         let email = $('#cadEmail').val()

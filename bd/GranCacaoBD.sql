@@ -2,94 +2,52 @@ DROP DATABASE IF EXISTS `grancacao`;
 CREATE DATABASE `grancacao` DEFAULT CHARACTER SET utf8mb4 ;
 USE `grancacao`;
 
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id_user` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(250) NOT NULL UNIQUE,
-  `senha` CHAR(64) NOT NULL,
-  `nome` VARCHAR(45),
+  `pass` CHAR(64) NOT NULL,
+  `name` VARCHAR(45),
   `token` CHAR(64),
-  `status` SET('Confirmado', 'Não confirmado') DEFAULT 'Não confirmado',
-  `del` BOOL DEFAULT FALSE
+  -- `status` SET('Confirmado', 'Não confirmado') DEFAULT 'Não confirmado',
+  `active` BOOL DEFAULT TRUE,
+  PRIMARY KEY (`id_user`)
 )ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `usuario_endereco`;
-CREATE TABLE IF NOT EXISTS `usuario_endereco` (
-	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `usuario` INT NOT NULL,
-    `cep` CHAR(8),
-    `logradouro` VARCHAR(60) NOT NULL,
-    `numero` INT NOT NULL,
-    `complemento` VARCHAR(45),
-    `localidade` VARCHAR(45) NOT NULL,
-    `uf` CHAR(2) NOT NULL,
-    `ibge` CHAR(7) NOT NULL,
-    `totalentregas` INT,
-    `del` BOOL DEFAULT FALSE,
-    CONSTRAINT `fk_usuario_endereco` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
-)ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS `usuario_telefone`;
-CREATE TABLE IF NOT EXISTS `usuario_telefone` (
-	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `usuario` INT NOT NULL,
-    `ddd` varchar(3),
-    `numero` VARCHAR(9),
-    `del` BOOL DEFAULT FALSE,
-    CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
-)ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS `usuario_dispositivo`;
-CREATE TABLE IF NOT EXISTS `usuario_dispositivo` (
-	`usuario` INT NOT NULL,
+DROP TABLE IF EXISTS `user_device`;
+CREATE TABLE IF NOT EXISTS `user_device` (
+	`id_user` INT NOT NULL,
     `token` CHAR(64) NOT NULL,
     `validade` DATE NOT NULL,
-    PRIMARY KEY (`usuario`,`token`),
-    CONSTRAINT `fk_usuario_dispositivo` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
+    PRIMARY KEY (`id_user`,`token`),
+    CONSTRAINT `fk_UserToDevice` FOREIGN KEY (`id_user`) REFERENCES `user`(`id_user`)
 )ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `produto`;
-CREATE TABLE IF NOT EXISTS `produto` (
-	`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `nome`VARCHAR(250) NOT NULL,
-    `valor` DECIMAL(5,2) NOT NULL,
-    `descricao` VARCHAR(250),    
-    `categoria` INT,
-    `del` BOOL DEFAULT FALSE
+DROP TABLE IF EXISTS `product_group`;
+CREATE TABLE IF NOT EXISTS `product_group` (
+	`id_group` INT NOT NULL AUTO_INCREMENT,
+    `descricao` VARCHAR(250),
+    PRIMARY KEY (`id_group`)
 )ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `pedido`;
-CREATE TABLE IF NOT EXISTS `pedido` (
-	`id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario` INT,
-    `qtdItens` INT,
-    `valorTotal` DECIMAL(5,2),
-    `situacao` SET('Concluído','Aberto'),
-    `del` BOOL DEFAULT FALSE,
-    CONSTRAINT `fk_usuario_pedido` FOREIGN KEY (`usuario`) REFERENCES `usuario`(`id`)
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
+	`id_product` INT NOT NULL AUTO_INCREMENT,
+    `name`VARCHAR(250) NOT NULL,
+    `value` DECIMAL(5,2) NOT NULL,
+    `description` VARCHAR(250),
+    `id_group` INT,
+    `active` BOOL DEFAULT FALSE,
+    PRIMARY KEY (`id_product`),
+    CONSTRAINT `fk_GroupToProduct` FOREIGN KEY (`id_group`) REFERENCES `product_group`(`id_group`)
 )ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `item_pedido`;
-CREATE TABLE IF NOT EXISTS `item_pedido` (
-	`id` INT PRIMARY KEY AUTO_INCREMENT,
-    `pedido` INT NOT NULL,
-    `produto` INT NOT NULL,
-    `qtdProd` INT NOT NULL,
-    `valorUn` DECIMAL(5,2),
-    `subToatal` DECIMAL(5,2),
-    `del` BOOL DEFAULT FALSE,
-    CONSTRAINT `fk_pedido_item` FOREIGN KEY (`pedido`) REFERENCES `pedido`(`id`),
-    CONSTRAINT `fk_produto_item` FOREIGN KEY (`produto`) REFERENCES `produto`(`id`)
+DROP TABLE IF EXISTS `product_image`;
+CREATE TABLE IF NOT EXISTS `product_image` (
+	`id_image` INT NOT NULL AUTO_INCREMENT,
+    `id_product` INT NOT NULL,
+    `address` VARCHAR(250),
+    PRIMARY KEY(`id_image`,`id_product`),
+    CONSTRAINT `fk_ProductToImage` FOREIGN KEY (`id_product`) REFERENCES `product`(`id_product`)
 )ENGINE = InnoDB;
 
-
-
-/*select DATE(DATE_ADD(NOW(), INTERVAL 15 DAY));*/
-
-
-/*
-DROP TABLE IF EXISTS ``;
-CREATE TABLE IF NOT EXISTS `` (
-	
-)ENGINE = InnoDB;
-*/
