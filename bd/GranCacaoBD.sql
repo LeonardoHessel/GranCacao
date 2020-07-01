@@ -4,23 +4,60 @@ USE `grancacao`;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `id_user` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(250) NOT NULL UNIQUE,
-  `pass` CHAR(64) NOT NULL,
-  `name` VARCHAR(45),
-  `token` CHAR(64),
-  -- `status` SET('Confirmado', 'Não confirmado') DEFAULT 'Não confirmado',
-  `active` BOOL DEFAULT TRUE,
-  PRIMARY KEY (`id_user`)
+	`id_user` INT NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(250) NOT NULL UNIQUE,
+    `pass` CHAR(64) NOT NULL,
+    `name` VARCHAR(45) NOT NULL,
+    `token` CHAR(64),
+    `active` BOOL DEFAULT TRUE,
+    PRIMARY KEY (`id_user`)
 )ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `user_device`;
-CREATE TABLE IF NOT EXISTS `user_device` (
-	`id_user` INT NOT NULL,
+INSERT INTO `user` (`email`,`pass`,`name`) VALUES ("leonardo.hessel@hotmail.com","68dd8aea6fbb95d0617a16298d944bffa066d5df3d687797d5077dcc43e6e635","Leonardo Hessel");
+
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE IF NOT EXISTS `client` (
+	`id_client` INT NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(250) NOT NULL UNIQUE,
+    `pass` CHAR(64) NOT NULL,
+    `name` VARCHAR(45),
+    `active` BOOL DEFAULT TRUE,
+    PRIMARY KEY (`id_client`)
+)ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `client_fone`;
+CREATE TABLE IF NOT EXISTS `client_fone` (
+	`id_fone` INT NOT NULL AUTO_INCREMENT,
+    `id_client` INT NOT NULL,
+    `description` VARCHAR(100),
+    `ddd` CHAR(3),
+    `fone` CHAR(64),
+    PRIMARY KEY (`id_fone`),
+    CONSTRAINT `fk_ClientToFone` FOREIGN KEY (`id_client`) REFERENCES `client`(`id_client`)
+)ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `client_address`;
+CREATE TABLE IF NOT EXISTS `client_address` (
+	`id_address` INT NOT NULL AUTO_INCREMENT,
+    `id_client` INT NOT NULL,
+    `description` VARCHAR(100),
+    `cep` CHAR(8),
+    `logradouro` VARCHAR(100),
+    `complemento` VARCHAR(50),
+    `bairro` VARCHAR(100),
+    `localidade` VARCHAR(50),
+    `uf` CHAR(2),
+    PRIMARY KEY (`id_address`),
+    CONSTRAINT `fk_ClientToAddress` FOREIGN KEY (`id_client`) REFERENCES `client`(`id_client`)
+)ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `client_device`;
+CREATE TABLE IF NOT EXISTS `client_device` (
+	`id_client` INT NOT NULL,
     `token` CHAR(64) NOT NULL,
-    `validade` DATE NOT NULL,
-    PRIMARY KEY (`id_user`,`token`),
-    CONSTRAINT `fk_UserToDevice` FOREIGN KEY (`id_user`) REFERENCES `user`(`id_user`)
+    `expiration` DATETIME NOT NULL,
+    PRIMARY KEY (`id_client`,`token`),
+    CONSTRAINT `fk_ClientToDevice` FOREIGN KEY (`id_client`) REFERENCES `client`(`id_client`)
 )ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `product_group`;

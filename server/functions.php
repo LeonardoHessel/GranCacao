@@ -5,10 +5,10 @@
 require_once 'conexao.php';
 use Conexao as Con;
 
-// Usuário //
+// ----- Cliente ----- //
 // Verifica se há registro com email.
 function isRegistered($email){
-    $sql = 'SELECT * FROM `usuario` WHERE `email`=:email';
+    $sql = 'SELECT * FROM `client` WHERE `email`=:email';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':email',$email);
     $cmd->execute();
@@ -16,58 +16,128 @@ function isRegistered($email){
     return is_object($user);
 }
 
-// Registra o usuario.
-function registerUser($email,$senha){
+// Registra o cliente.
+function registerClient($email,$pass){
     $token = bin2hex(openssl_random_pseudo_bytes(32));
-    $sql = 'INSERT INTO `usuario` (`email`,`senha`,`token`) VALUES (:email,:senha,:token)';
+    $sql = 'INSERT INTO `client` (`email`,`pass`) VALUES (:email,:pass)';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':email',$email);
-    $cmd->bindParam(':senha',$senha);
-    $cmd->bindParam(':token',$token);
+    $cmd->bindParam(':pass',$pass);
     return $cmd->execute();
 }
 
-// Carrega um objeto usuario.
-function getUser($email,$senha) {
-    $sql = 'SELECT * FROM `usuario` WHERE `email`=:email AND `senha`=:senha AND `del`= FALSE';
+// Gera um objeto através da tabela cliente.
+function getClient($email,$pass) {
+    $sql = 'SELECT * FROM `client` WHERE `email`=:email AND `pass`=:pass AND `active`= TRUE';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':email',$email);
-    $cmd->bindParam(':senha',$senha);
+    $cmd->bindParam(':pass',$pass);
     $cmd->execute();
     return $cmd->fetch(PDO::FETCH_OBJ);
 }
 
-// Cookies //
 // Salva o token do dispositivo e set o cookie.
-function setDeviceCookie($user) {
-    $sql = "INSERT INTO `usuario_dispositivo` VALUES (:id_user,:token,DATE(DATE_ADD(NOW(), INTERVAL 7 DAY)))";
+function setDeviceCookie($id_client, $days) {
+    $sql = "INSERT INTO `client_device` VALUES (:id_client,:token,DATE_ADD(NOW(), INTERVAL :days DAY))";
     $token = bin2hex(openssl_random_pseudo_bytes(32));
     $cmd = Con::PDO()->prepare($sql);
-    $cmd->bindParam(':id_user',$user);
+    $cmd->bindParam(':id_client',$id_client);
     $cmd->bindParam(':token',$token);
+    $cmd->bindParam(':days',$days);
     $cmd->execute();
-    setcookie('device',$token, time() + (86400 * 7), "/");
-    setcookie('user',$user, time() + (86400 * 7), "/");
+    if ($days > 1){
+        setcookie('device',$token, time() + (86400 * 7), "/");
+        setcookie('client',$id_client, time() + (86400 * 7), "/");
+    } else {
+        setcookie('device',$token,0);
+        setcookie('client',$id_client,0);
+    }
 }
 
 // Verifica a validade do token no banco de dados.
-function checkDeviceCookie($user, $device){
-    $sql = "SELECT * FROM `usuario_dispositivo` WHERE `usuario`= :user AND `token`= :token AND `validade` > DATE(NOW())";
-    $cmd = Con::getPDO()->prepare($sql);
-    $cmd->bindParam(':user',$user);
-    $cmd->bindParam(':token',$device);
+function checkDeviceCookie($id_client, $token){
+    $sql = "SELECT * FROM `client_device` WHERE `id_client`= :id_client AND `token`= :token AND `expiration` > DATE(NOW())";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_client',$id_client);
+    $cmd->bindParam(':token',$token);
     $cmd->execute();
-    $dev = $cmd->fetch(PDO::FETCH_OBJ);
-    return is_object($dev);
+    $device = $cmd->fetch(PDO::FETCH_OBJ);
+    return is_object($device);
 }
 
 // (Logout) Deleta o refistro no BD e dropa o cookie.
-function dropDeviceCookies($user,$device) {
-    $sql = 'DELETE FROM `usuario_dispositivo` WHERE `usuario`=:usuario AND `token`=:token';
-    $cmd = Con::getPDO()->prepare($sql);
-    $cmd->bindParam(':usuario',$user);
-    $cmd->bindParam(':token',$device);
+function dropDeviceCookies($id_client,$token) {
+    $sql = 'DELETE FROM `client_device` WHERE `id_client`=:id_client AND `token`=:token';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_client',$id_client);
+    $cmd->bindParam(':token',$token);
     $cmd->execute();
-    setcookie('user','', time() + (86400 * 7), "/");
-    setcookie('device','', time() + (86400 * 7), "/");
+    setcookie('client','', time() - 3600);
+    setcookie('device','', time() - 3600);
+}
+
+
+
+// ----- Usuário ----- //
+
+// Cria um objeto através da tabela user.
+function getUser($email, $pass) {
+    $sql = 'SELECT * FROM `user` WHERE `email`=:email AND `pass`=:pass AND `active`= TRUE';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':email',$email);
+    $cmd->bindParam(':pass',$pass);
+    $cmd->execute();
+    return $cmd->fetch(PDO::FETCH_OBJ);
+}
+
+// Gera um token para o usuario
+function generateUserToken($id_user) {
+    $sql = "UPDATE `user` SET `token`= :token WHERE `id_user`= :id_user";
+    $token = bin2hex(openssl_random_pseudo_bytes(32));
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_user',$id_user);
+    $cmd->bindParam(':token',$token);
+    $cmd->execute();
+    return $token;
+}
+
+// Define o cookie para a sessao do usuario.
+function setUserCookies($id_user,$token) {
+    setcookie('id_user',$id_user,0);
+    setcookie('token',$token,0);
+}
+
+// Checa o cookie do usuario.
+function checkUserToken($id_user, $token) {
+    $sql = "SELECT * FROM `user` WHERE `id_user`= :id_user AND `token`= :token AND `active`= TRUE";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_user',$id_user);
+    $cmd->bindParam(':token',$token);
+    $cmd->execute();
+    $user = $cmd->fetch(PDO::FETCH_OBJ);
+    return is_object($user);
+}
+
+// Define o cookie para a sessao do usuario.
+function dropUserCookies() {
+    setcookie('id_user',"",time() - 3600);
+    setcookie('token',"",time() - 3600);
+}
+
+function haveUserWithEmail($email){
+    $sql = 'SELECT * FROM `user` WHERE `email`=:email';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':email',$email);
+    $cmd->execute();
+    $user = $cmd->fetch(PDO::FETCH_OBJ);
+    return is_object($user);
+}
+
+function registerUser($email,$pass,$name){
+    $sql = 'INSERT INTO `user` (`email`,`pass`,`name`) VALUES (:email,:pass,:name)';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':email',$email);
+    $cmd->bindParam(':pass',$pass);
+    $cmd->bindParam(':name',$name);
+    return $cmd->execute();
 }

@@ -7,13 +7,22 @@ require_once 'controller.php';
 extract($_POST);
 
 if (isset($req)) {
-    if ($req == "check_user") {
-        checkUser();
+    // Cadastro, Login, Verificar, Logout
+    if ($req == "register_client") {
+        tryRegisterClient();
+    } else if ($req == "login_client") {
+        tryLoginClient();
+    } else if ($req == "check_client") {
+        tryCheckClient();
+    } else if ($req == "logout_client") {
+        logoutClient();
     } else if ($req == "login_user") {
         tryLoginUser();
+    } else if ($req == "check_user") {
+        tryCheckUser();
     } else if ($req == "logout_user") {
         logoutUser();
-    } else if ($req == "reg_user") {
+    } else if ($req == "register_user") {
         tryRegisterUser();
     }
 
