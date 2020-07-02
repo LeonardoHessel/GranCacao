@@ -5,7 +5,7 @@
 require_once 'functions.php';
 
 // Tenta cadastrar cliente.
-function tryRegisterClient() {
+function ctrlRegClient() {
     extract($_POST);
     if (isset($email,$pass)) {
         $email = htmlspecialchars($email);
@@ -16,27 +16,28 @@ function tryRegisterClient() {
             $resp["record"] = $reg;
         } else {
             $resp["record"] = false;
+            $resp["message"] = "Email já cadastrado";
         }
         arrayJSON($resp);
     }
 }
 
 // Tenta logar o cliente.
-function tryLoginClient() {
+function ctrlLoginClient() {
     extract($_POST);
-    if (isset($email,$pass,$keep)) {
+    if (isset($email,$pass,$stayLoggedIn)) {
         $email = htmlspecialchars($email);
         $pass = htmlspecialchars($pass);
-        $keep = htmlspecialchars($keepMeLoggedIn);
+        $stay = htmlspecialchars($stayLoggedIn);
         $pass = hash('sha256', $pass);
         $client = getClient($email,$pass);
         if ($client) {
-            $resp["client"] = true;
-            if ($keep == "true") {
+            if ($stay == "true") {
                 setDeviceCookie($client->id_client, 7);
             } else {
                 setDeviceCookie($client->id_client, 1);
             }
+            $resp["client"] = true;
         } else {
             $resp["client"] = false;
         }
@@ -44,8 +45,8 @@ function tryLoginClient() {
     }
 }
 
-// Checa cliente retorna true ou false.
-function CheckClient() {
+// INTERNA Checa cliente retorna true ou false.
+function checkClient() {
     extract($_COOKIE);
     if (isset($client,$device)){
         $client = htmlspecialchars($client);
@@ -56,13 +57,13 @@ function CheckClient() {
 }
 
 // Checa cliente retorna webservice.
-function tryCheckClient() {
-    $resp["client"] = CheckClient();
+function ctrlCheckClient() {
+    $resp["client"] = checkClient();
     arrayJSON($resp);
 }
 
 // Faz logout do cliente.
-function logoutClient() {
+function ctrlLogoutClient() {
     extract($_COOKIE);
     if (isset($client,$device)) {
         $client = htmlspecialchars($client);
@@ -77,7 +78,7 @@ function logoutClient() {
 // ----- Usuários ----- //
 
 // Realiza o login de um usuário.
-function tryLoginUser() {
+function ctrlLoginUser() {
     extract($_POST);
     if (isset($email,$pass)) {
         $email = htmlspecialchars($email);
@@ -95,7 +96,7 @@ function tryLoginUser() {
     }
 }
 
-// Checa usuário retorna true ou false.
+// INTERNA Checa usuário retorna true ou false.
 function checkUser() {
     extract($_COOKIE);
     if (isset($id_user,$token)) {
@@ -107,13 +108,13 @@ function checkUser() {
 }
 
 // Checa usuário retorna webservice.
-function tryCheckUser() {
+function ctrlCheckUser() {
     $resp["user"] = checkUser();
     arrayJSON($resp);
 }
 
 // Realiza o logout do usuário.
-function logoutUser() {
+function ctrlLogoutUser() {
     extract($_COOKIE);
     if (isset($id_user)) {
         $id_user = htmlspecialchars($id_user);
@@ -124,11 +125,8 @@ function logoutUser() {
     arrayJSON($resp);
 }
 
-
-// ----- Usuários Funções ----- //
-
 // Registra um novo usuário através de um usuário.
-function tryRegisterUser() {
+function ctrlRegisterUser() {
     if (checkUser()) {
         extract($_POST);
         if (isset($email, $pass, $name)) {
@@ -136,16 +134,28 @@ function tryRegisterUser() {
             $pass = htmlspecialchars($pass);
             $name = htmlspecialchars($name);
             if (!haveUserWithEmail($email)) {
-                $resp["registered"] = registerUser($email,$pass,$name);
+                $resp["reg_user"] = registerUser($email,$pass,$name);
                 arrayJSON($resp);
             }
             $resp["message"] = "Email já cadastrado";
         }
     }
-    $resp["registered"] = false;
+    $resp["reg_user"] = false;
     arrayJSON($resp);
 }
 
+function tryRegisterProductGroup() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($description)) {
+            $description = htmlspecialchars($description);
+            $resp["reg_group"] = registerGroup($description);
+            arrayJSON($resp);
+        }
+    }
+    $resp["reg_group"] = false;
+    arrayJSON($resp);
+}
 
 
 

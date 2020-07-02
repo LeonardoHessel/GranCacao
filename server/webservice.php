@@ -8,23 +8,28 @@ extract($_POST);
 
 if (isset($req)) {
     // Cadastro, Login, Verificar, Logout
-    if ($req == "register_client") {
-        tryRegisterClient();
+    if ($req == "reg_client") {
+        ctrlRegClient();
     } else if ($req == "login_client") {
-        tryLoginClient();
+        ctrlLoginClient();
     } else if ($req == "check_client") {
-        tryCheckClient();
+        ctrlCheckClient();
     } else if ($req == "logout_client") {
-        logoutClient();
+        ctrlLogoutClient();
     } else if ($req == "login_user") {
-        tryLoginUser();
+        ctrlLoginUser();
     } else if ($req == "check_user") {
-        tryCheckUser();
+        ctrlCheckUser();
     } else if ($req == "logout_user") {
-        logoutUser();
-    } else if ($req == "register_user") {
-        tryRegisterUser();
+        ctrlLogoutUser();
+    } else if ($req == "reg_user") {
+        ctrlRegisterUser();
+    }  else if ($req == "reg_group") {
+        tryRegisterProductGroup();
     }
+
+
+
 
     // Mais Conteudo ainda não produzido.
 
