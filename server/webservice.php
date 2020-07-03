@@ -12,6 +12,8 @@ if (isset($req)) {
         ctrlRegClient();
     } else if ($req == "login_client") {
         ctrlLoginClient();
+    } else if ($req == "upd_client") {
+        ctrlUpdClient();
     } else if ($req == "check_client") {
         ctrlCheckClient();
     } else if ($req == "logout_client") {
@@ -23,12 +25,16 @@ if (isset($req)) {
     } else if ($req == "logout_user") {
         ctrlLogoutUser();
     } else if ($req == "reg_user") {
-        ctrlRegisterUser();
-    }  else if ($req == "reg_group") {
-        tryRegisterProductGroup();
+        ctrlRegUser();
+    } else if ($req == "upd_user") {
+        ctrlUpdUser();
+    } else if ($req == "reg_group") {
+        ctrlRegProdGroup();
+    } else if ($req == "upd_group") {
+        ctrlUpdProdGroup();
     }
 
-
+    
 
 
     // Mais Conteudo ainda não produzido.

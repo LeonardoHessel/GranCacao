@@ -12,7 +12,7 @@ function ctrlRegClient() {
         $pass = htmlspecialchars($pass);
         if (!isRegistered($email)){
             $pass = hash('sha256', $pass);
-            $reg = registerClient($email,$pass);
+            $reg = regClient($email,$pass);
             $resp["record"] = $reg;
         } else {
             $resp["record"] = false;
@@ -21,6 +21,18 @@ function ctrlRegClient() {
         arrayJSON($resp);
     }
 }
+
+// INTERNA Checa cliente retorna true ou false.
+function checkClient() {
+    extract($_COOKIE);
+    if (isset($client,$device)){
+        $client = htmlspecialchars($client);
+        $device = htmlspecialchars($device);
+        return checkDeviceCookie($client,$device);
+    }
+    return false;
+}
+
 
 // Tenta logar o cliente.
 function ctrlLoginClient() {
@@ -45,15 +57,23 @@ function ctrlLoginClient() {
     }
 }
 
-// INTERNA Checa cliente retorna true ou false.
-function checkClient() {
-    extract($_COOKIE);
-    if (isset($client,$device)){
-        $client = htmlspecialchars($client);
-        $device = htmlspecialchars($device);
-        return checkDeviceCookie($client,$device);
+// Tenta atualiza cliente.
+function ctrlUpdClient() {
+    if (checkClient()) {
+        extract($_COOKIE);
+        if (isset($client,$device)){
+            extract($_POST);
+            if (isset($email,$pass,$name)) {
+                $email = htmlspecialchars($email);
+                $pass = htmlspecialchars($pass);
+                $name = htmlspecialchars($name);
+                $pass = hash('sha256', $pass);
+                $client = htmlspecialchars($client);
+                $resp["upd_client"] = updClient($email,$pass,$name,$client);
+                arrayJSON($resp);
+            }
+        }
     }
-    return false;
 }
 
 // Checa cliente retorna webservice.
@@ -126,12 +146,13 @@ function ctrlLogoutUser() {
 }
 
 // Registra um novo usuário através de um usuário.
-function ctrlRegisterUser() {
+function ctrlRegUser() {
     if (checkUser()) {
         extract($_POST);
         if (isset($email, $pass, $name)) {
             $email = htmlspecialchars($email);
             $pass = htmlspecialchars($pass);
+            $pass = hash('sha256', $pass);
             $name = htmlspecialchars($name);
             if (!haveUserWithEmail($email)) {
                 $resp["reg_user"] = registerUser($email,$pass,$name);
@@ -144,12 +165,31 @@ function ctrlRegisterUser() {
     arrayJSON($resp);
 }
 
-function tryRegisterProductGroup() {
+
+function ctrlUpdUser() {
+    if (checkUser()) {
+        extract($_COOKIE);
+        if (isset($id_user,$token)){
+            extract($_POST);
+            if (isset($email,$pass,$name)) {
+                $email = htmlspecialchars($email);
+                $pass = htmlspecialchars($pass);
+                $name = htmlspecialchars($name);
+                $pass = hash('sha256', $pass);
+                $id_user = htmlspecialchars($id_user);
+                $resp["upd_user"] = updUser($email,$pass,$name,$id_user);
+                arrayJSON($resp);
+            }
+        }
+    }
+}
+
+function ctrlRegProdGroup() {
     if (checkUser()) {
         extract($_POST);
         if (isset($description)) {
             $description = htmlspecialchars($description);
-            $resp["reg_group"] = registerGroup($description);
+            $resp["reg_group"] = regProdGroup($description);
             arrayJSON($resp);
         }
     }
@@ -157,6 +197,19 @@ function tryRegisterProductGroup() {
     arrayJSON($resp);
 }
 
+function ctrlUpdProdGroup() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($description,$id_group)) {
+            $description = htmlspecialchars($description);
+            $id_group = htmlspecialchars($id_group);
+            $resp["upd_group"] = updProdGroup($description,$id_group);
+            arrayJSON($resp);
+        }
+    }
+    $resp["upd_group"] = false;
+    arrayJSON($resp);
+}
 
 
 
