@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
-    <title>Gran Cacao</title>
+    <title>Login</title>
 </head>
 <body class="m-0">  
     <div class="container-fluid">
@@ -22,19 +22,18 @@
                     <h4 class="txt-data mx-auto">Desde 2018</h4>
                 </div> 
             </div>
-
             
             <div class="col-sm-12 col-lg-4 bg-marrom" style="padding-top: 10vh;">
                 <div class="mg-config mb-5">
-                    <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
-                    <h1 class="txt-CriarConta d-none d-lg-block">Login</h1>
-                    <input type="text" class="form-control my-4" placeholder="E-Mail">
-                    <input id="password-field" type="password" class="form-control" placeholder="Senha">
-                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                    <br>
-                    <button class="loginBtn loginBtn--facebook">Login with Facebook</button>
-                    <button class="loginBtn loginBtn--google">Login with Google</button>
-                    <button type="submit" class="btn-cad mt-3" id="btn-cadastro">Entrar</button>
+                      <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
+                      <h1 class="txt-CriarConta d-none d-lg-block">Login</h1>
+                      <input type="text" class="form-control my-4" placeholder="E-Mail">
+                      <input id="password-field" type="password" class="form-control" placeholder="Senha">
+                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                      <br>
+                      <button class="loginBtn loginBtn--facebook">Login with Facebook</button>
+                      <button class="loginBtn loginBtn--google">Login with Google</button>
+                      <button type="submit" class="btn-cad mt-3" id="btn-cadastro">Entrar</button>
                 </div>
             </div>
         </div>
@@ -44,7 +43,7 @@
 
 <style>
     .mg-config{
-        margin-top: 50%;
+        margin-top: 30vh;
     }
     .bg-marrom{
         background-color: #211814;
@@ -130,7 +129,6 @@
         padding: 5px;
     }
 
-    /*Codigo do cara*/
     .loginBtn {
       box-sizing: border-box;
       position: relative;
@@ -191,8 +189,7 @@
       background: #E74B37;
     }
 
-
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 992px){
       .loginBtn{
         font-size: 1vw;
       }
@@ -200,13 +197,12 @@
         margin-top:50%;
       }
     }
-
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 992px){
       .loginBtn{
-        font-size: 3vw;
+          font-size: 3vw;
       }
       .mg-config{
-        margin-top:10%;
+        margin-top: 10vh;
       }
     }
 </style>

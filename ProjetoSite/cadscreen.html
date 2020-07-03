@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
     <script src="js/cadscreen.js"></script>
     <script src="js/verificadores.js"></script>
-    <title>Cadastro/Login</title>
+    <title>Cadastro</title>
 </head>
 <body class="m-0">  
     <div class="container-fluid">
@@ -29,16 +29,17 @@
             <!-- Final Vitrine da página de cadastro -->
 
             <!-- Começo da página de cadastro -->
-            <div class="col-sm-12 col-lg-4 bg-marrom borda" style="padding-top: 10vh;">
+            <div class="col-sm-12 col-lg-4 bg-marrom" style="padding-top: 10vh;">
                 <div class="mg-config">
-                    <h1 class="txt-Gran-Mobile d-sm-none d-block">Gran Cacao</h1>
-                    <h1 class="txt-CriarConta d-none d-lg-block">Criar Conta</h1>
-                    <input type="text" class="form-control my-4" placeholder="Nome completo" id="Nome">
-                    <input type="text" class="form-control my-4" placeholder="E-Mail" id="Email">
-                    <input id="password-field" type="password" class="form-control" placeholder="Senha">
-                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                    <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="Repetir_senha">
-                    <button type="submit" class="btn-cad my-2" id="btn-cadastro">Cadastrar-se</button>
+                        <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
+                        <h1 class="txt-CriarConta d-none d-lg-block">Criar Conta</h1>
+                        <input type="text" class="form-control my-4" placeholder="Nome completo" id="Nome">
+                        <input type="text" class="form-control my-4" placeholder="E-Mail" id="Email">
+                        <input id="password-field" type="password" class="form-control" placeholder="Senha">
+                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="Repetir_senha">
+                        <button type="submit" class="btn-cad my-2" id="btn-cadastro">Cadastrar-se</button>
+                    </div>
                 </div>
             </div>
             <!-- Final da página de cadastro -->
@@ -49,13 +50,7 @@
 
 <style>
     .mg-config{
-        margin-top: 10vw;
-    }
-    .borda{
-        border-left-style: solid;
-        border-color: #130e0c;
-        border-width: 3px;
-        box-shadow: 5px 1px 18px #3f2e27;
+        margin-top:30vh;
     }
     .bg-marrom{
         background-color: #211814;
@@ -65,18 +60,19 @@
         background-repeat: no-repeat;
         background-size: cover;
         height: 100%;
+        width: 100%;
         position: absolute;
         left: 5px;
         top: 0px;
         z-index: -1;
+        filter: blur(5px);
         opacity: 0.5;
     }
-    .field-icon {
-      float: right;
-      padding-right: 25px;
-      margin-top: -25px;
+    .field-icon{
+        float: right;
+        padding-right: 25px;
+        margin-top: -25px;
     }
-
     .btn-cad{
         border-style: solid;
         border-color: #150b06;
@@ -112,7 +108,6 @@
         font-size: 70px;
         text-align: center;
         margin-top:-15vh;
-
     }
     .txt-CriarConta{
         font-family: 'Lobster', cursive;
@@ -139,21 +134,26 @@
         font-size: 15px;
         padding: 5px;
     }
+    @media screen and (max-width: 992px) {
+        .mg-config{
+            margin-top: 10vh;
+        }
+    }
 </style>
 
 <script>
     $(document).ready(function(){
         $(".toggle-password").click(function() {
 
-          $(this).toggleClass("fas fa-eye-slash");
-          var input = $($(this).attr("toggle"));
+        $(this).toggleClass("fas fa-eye-slash");
+        var input = $($(this).attr("toggle"));
 
-          if (input.attr("type") == "password") {
+        if (input.attr("type") == "password") {
             input.attr("type", "text");
 
-          } else {
+        } else {
             input.attr("type", "password");
-          }
+        }
         });
     });
 </script>
