@@ -17,12 +17,22 @@ function isRegistered($email){
 }
 
 // Registra o cliente.
-function registerClient($email,$pass){
+function regClient($email,$pass){
     $token = bin2hex(openssl_random_pseudo_bytes(32));
     $sql = 'INSERT INTO `client` (`email`,`pass`) VALUES (:email,:pass)';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':email',$email);
     $cmd->bindParam(':pass',$pass);
+    return $cmd->execute();
+}
+
+function updClient($email,$pass,$name,$id_client) {
+    $sql = 'UPDATE `client` SET `email`=:email, `pass`=:pass, `name`=:name WHERE `id_client`=:id_client';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':email',$email);
+    $cmd->bindParam(':pass',$pass);
+    $cmd->bindParam(':name',$name);
+    $cmd->bindParam(':id_client',$id_client);
     return $cmd->execute();
 }
 
@@ -140,4 +150,31 @@ function registerUser($email,$pass,$name){
     $cmd->bindParam(':pass',$pass);
     $cmd->bindParam(':name',$name);
     return $cmd->execute();
+}
+
+function updUser($email,$pass,$name,$id_user) {
+    $sql = 'UPDATE `user` SET `email`=:email, `pass`=:pass, `name`=:name WHERE `id_user`=:id_user';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':email',$email);
+    $cmd->bindParam(':pass',$pass);
+    $cmd->bindParam(':name',$name);
+    $cmd->bindParam(':id_user',$id_user);
+    return $cmd->execute();
+}
+
+function regProdGroup($description){
+    $sql = 'INSERT INTO `product_group` (`description`) VALUES (:description)';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':description',$description);
+    $teste = $cmd->execute();
+    return $teste;
+}
+
+function updProdGroup($description,$id_group) {
+    $sql = 'UPDATE `product_group` SET `description`= :description WHERE `id_group`=:id_group';
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':description',$description);
+    $cmd->bindParam(':id_group',$id_group);
+    $teste = $cmd->execute();
+    return $teste;
 }

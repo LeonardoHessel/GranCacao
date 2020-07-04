@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `client_device` (
 DROP TABLE IF EXISTS `product_group`;
 CREATE TABLE IF NOT EXISTS `product_group` (
 	`id_group` INT NOT NULL AUTO_INCREMENT,
-    `descricao` VARCHAR(250),
+    `description` VARCHAR(250),
     PRIMARY KEY (`id_group`)
 )ENGINE = InnoDB;
 
