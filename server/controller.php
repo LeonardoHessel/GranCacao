@@ -211,13 +211,28 @@ function ctrlUpdProdGroup() {
     arrayJSON($resp);
 }
 
-
-
-
-
-
-// Tranforma um array em JSON e termina o script.
-function arrayJSON($array){
-    echo json_encode($array, JSON_UNESCAPED_UNICODE);
-    exit;
+// --- Produtos --- //
+function ctrlAddProdImage() {
+    if (checkUser()) {
+        extract($_FILES);
+        extract($_POST);
+        if (isset($prodImage,$id_product)) {
+            $id_product = htmlspecialchars($id_product);
+            if(checkImage($prodImage)){
+                $oldfileName = genFileName($prodImage);
+                $path = "../image/";
+                sendImage($prodImage,$path,$oldfileName);
+                $rsd = resizeImage($path.$oldfileName, 300, 300);
+                $fileName = "300x_".$oldfileName;
+                imagejpeg($rsd,$path.$fileName);
+                unlink($path.$oldfileName);
+                $regImage = dbRegProdImage($id_product,$fileName);
+                $resp["add_image"] = $regImage;
+            } else {
+                $resp["add_image"] = false;
+                $resp["message"] = "Imagem Inválida";
+            }
+            arrayJSON($resp);
+        }
+    }
 }

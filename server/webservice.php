@@ -32,6 +32,22 @@ if (isset($req)) {
         ctrlRegProdGroup();
     } else if ($req == "upd_group") {
         ctrlUpdProdGroup();
+    } else if ($req == "reg_product") {
+        //ctrlRegProd();
+    } else if ($req == "upd_product") {
+        //ctrlUpdProd();
+    } else if ($req == "del_product") {
+        //ctrlDelProd();
+    } else if ($req == "add_prod_image") {
+        ctrlAddProdImage();
+    } else if ($req == "del_prod_image") {
+        //ctrlDelProdImage();
+    } else if ($req == "") {
+        
+    } else if ($req == "") {
+        
+    } else if ($req == "") {
+        
     }
 
     

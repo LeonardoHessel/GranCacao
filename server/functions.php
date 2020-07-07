@@ -178,3 +178,73 @@ function updProdGroup($description,$id_group) {
     $teste = $cmd->execute();
     return $teste;
 }
+
+
+// Gera um nome aleatório com a extenção no arquivo.
+function genFileName($file){
+    $fileExtension = explode('.', $file['name'])[1];
+    $randomName = bin2hex(openssl_random_pseudo_bytes(10));
+    return $randomName.".".$fileExtension;
+}
+
+// Salva a imagem para o servidor numa pasta especifica.
+function sendImage($file, $path, $fileName) {
+    return move_uploaded_file($file['tmp_name'], $path.$fileName);
+}
+
+// redimenciona a imagem.
+function resizeImage($file, $w, $h, $crop=FALSE) {
+    list($width, $height) = getimagesize($file);
+    $r = $width / $height;
+    if ($crop) {
+        if ($width > $height) {
+            $width = ceil($width-($width*abs($r-$w/$h)));
+        } else {
+            $height = ceil($height-($height*abs($r-$w/$h)));
+        }
+        $newwidth = $w;
+        $newheight = $h;
+    } else {
+        if ($w/$h > $r) {
+            $newwidth = $h*$r;
+            $newheight = $h;
+        } else {
+            $newheight = $w/$r;
+            $newwidth = $w;
+        }
+    }
+    $src = imagecreatefromjpeg($file);
+    $dst = imagecreatetruecolor($newwidth, $newheight);
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+    return $dst;
+}
+
+// Veriica se a imagem é do tipo desejado e menor do que 5Mb
+function checkImage($image) {
+    if ($image['type'] == 'image/jpeg' || $image['type'] == 'image/jpg' || $image['type'] == 'image/png') {
+        $size = ($image['size'] / 1024) / 1024;
+        if ($size <= 5) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Registra o arquivo
+function dbRegProdImage($id_product,$fileName) {
+    $sql = "INSERT INTO `product_image` (`id_product`,`address`) VALUES (:id_product,:address)";            
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(":id_product", $id_product);
+    $cmd->bindParam(":address", $fileName);
+    return $cmd->execute();
+}
+
+
+
+
+
+// Tranforma um array em JSON e termina o script.
+function arrayJSON($array){
+    echo json_encode($array, JSON_UNESCAPED_UNICODE);
+    exit;
+}

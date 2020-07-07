@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `product_image` (
 	`id_image` INT NOT NULL AUTO_INCREMENT,
     `id_product` INT NOT NULL,
     `address` VARCHAR(250),
-    PRIMARY KEY(`id_image`,`id_product`),
-    CONSTRAINT `fk_ProductToImage` FOREIGN KEY (`id_product`) REFERENCES `product`(`id_product`)
+    PRIMARY KEY(`id_image`,`id_product`)
+    -- CONSTRAINT `fk_ProductToImage` FOREIGN KEY (`id_product`) REFERENCES `product`(`id_product`)
 )ENGINE = InnoDB;
 
