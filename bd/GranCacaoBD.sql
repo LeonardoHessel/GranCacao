@@ -13,8 +13,6 @@ CREATE TABLE IF NOT EXISTS `user` (
     PRIMARY KEY (`id_user`)
 )ENGINE = InnoDB;
 
-INSERT INTO `user` (`email`,`pass`,`name`) VALUES ("leonardo.hessel@hotmail.com","68dd8aea6fbb95d0617a16298d944bffa066d5df3d687797d5077dcc43e6e635","Leonardo Hessel");
-
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
 	`id_client` INT NOT NULL AUTO_INCREMENT,
@@ -74,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `product` (
     `value` DECIMAL(5,2) NOT NULL,
     `description` VARCHAR(250),
     `id_group` INT,
-    `active` BOOL DEFAULT FALSE,
+    `active` BOOL DEFAULT TRUE,
     PRIMARY KEY (`id_product`),
     CONSTRAINT `fk_GroupToProduct` FOREIGN KEY (`id_group`) REFERENCES `product_group`(`id_group`)
 )ENGINE = InnoDB;
@@ -84,7 +82,8 @@ CREATE TABLE IF NOT EXISTS `product_image` (
 	`id_image` INT NOT NULL AUTO_INCREMENT,
     `id_product` INT NOT NULL,
     `address` VARCHAR(250),
-    PRIMARY KEY(`id_image`,`id_product`)
-    -- CONSTRAINT `fk_ProductToImage` FOREIGN KEY (`id_product`) REFERENCES `product`(`id_product`)
+    PRIMARY KEY(`id_image`,`id_product`),
+    CONSTRAINT `fk_ProductToImage` FOREIGN KEY (`id_product`) REFERENCES `product`(`id_product`)
 )ENGINE = InnoDB;
 
+INSERT INTO `user` (`email`,`pass`,`name`) VALUES ("leonardo.hessel@hotmail.com","68dd8aea6fbb95d0617a16298d944bffa066d5df3d687797d5077dcc43e6e635","Leonardo Hessel");

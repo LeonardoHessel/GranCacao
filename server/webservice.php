@@ -7,7 +7,7 @@ require_once 'controller.php';
 extract($_POST);
 
 if (isset($req)) {
-    // Cadastro, Login, Verificar, Logout
+    // Clientes
     if ($req == "reg_client") {
         ctrlRegClient();
     } else if ($req == "login_client") {
@@ -18,7 +18,9 @@ if (isset($req)) {
         ctrlCheckClient();
     } else if ($req == "logout_client") {
         ctrlLogoutClient();
-    } else if ($req == "login_user") {
+    }
+    // Usuários
+    else if ($req == "login_user") {
         ctrlLoginUser();
     } else if ($req == "check_user") {
         ctrlCheckUser();
@@ -28,20 +30,36 @@ if (isset($req)) {
         ctrlRegUser();
     } else if ($req == "upd_user") {
         ctrlUpdUser();
-    } else if ($req == "reg_group") {
+    }
+    // Produtos
+    else if ($req == "get_all_product") {
+        ctrlGetProds();
+    } else if ($req == "get_product") {
+        ctrlGetProd();
+    } else if ($req == "search_products") {
+        //ctrlSearchProds(); // -- Em manutenção
+    } else if ($req == "reg_product") {
+        ctrlRegProd();
+    } else if ($req == "upd_product") {
+        ctrlUpdProd();
+    } else if ($req == "active_product") {
+        ctrlActiveInactivateProd();
+    } else if ($req == "del_product") {
+        ctrlDelProd();
+    } 
+    // Imagens Produtos
+    else if ($req == "add_prod_image") {
+        ctrlAddProdImage();
+    } else if ($req == "get_prod_images") {
+        ctrlGetProdImages();
+    } else if ($req == "del_prod_image") {
+        ctrlDelProdImage();
+    } 
+    // Grupo Produtos
+    else if ($req == "reg_group") {
         ctrlRegProdGroup();
     } else if ($req == "upd_group") {
         ctrlUpdProdGroup();
-    } else if ($req == "reg_product") {
-        //ctrlRegProd();
-    } else if ($req == "upd_product") {
-        //ctrlUpdProd();
-    } else if ($req == "del_product") {
-        //ctrlDelProd();
-    } else if ($req == "add_prod_image") {
-        ctrlAddProdImage();
-    } else if ($req == "del_prod_image") {
-        //ctrlDelProdImage();
     } else if ($req == "") {
         
     } else if ($req == "") {
@@ -56,7 +74,7 @@ if (isset($req)) {
     // Mais Conteudo ainda não produzido.
 
     $resp["error"] = "Undefined Variable";
-    arrayJSON($resp);
+    toJSON($resp);
 }
 $resp["error"] = "Undefined Request";
-arrayJSON($resp);
+toJSON($resp);

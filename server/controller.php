@@ -4,6 +4,10 @@
 
 require_once 'functions.php';
 
+// ---------- ---------- ---------- ---------- ---------- //
+
+// ----- Clientes ---- //
+
 // Tenta cadastrar cliente.
 function ctrlRegClient() {
     extract($_POST);
@@ -18,10 +22,9 @@ function ctrlRegClient() {
             $resp["record"] = false;
             $resp["message"] = "Email já cadastrado";
         }
-        arrayJSON($resp);
+        toJSON($resp);
     }
 }
-
 // INTERNA Checa cliente retorna true ou false.
 function checkClient() {
     extract($_COOKIE);
@@ -32,8 +35,6 @@ function checkClient() {
     }
     return false;
 }
-
-
 // Tenta logar o cliente.
 function ctrlLoginClient() {
     extract($_POST);
@@ -53,10 +54,9 @@ function ctrlLoginClient() {
         } else {
             $resp["client"] = false;
         }
-        arrayJSON($resp);
+        toJSON($resp);
     }
 }
-
 // Tenta atualiza cliente.
 function ctrlUpdClient() {
     if (checkClient()) {
@@ -70,18 +70,16 @@ function ctrlUpdClient() {
                 $pass = hash('sha256', $pass);
                 $client = htmlspecialchars($client);
                 $resp["upd_client"] = updClient($email,$pass,$name,$client);
-                arrayJSON($resp);
+                toJSON($resp);
             }
         }
     }
 }
-
 // Checa cliente retorna webservice.
 function ctrlCheckClient() {
     $resp["client"] = checkClient();
-    arrayJSON($resp);
+    toJSON($resp);
 }
-
 // Faz logout do cliente.
 function ctrlLogoutClient() {
     extract($_COOKIE);
@@ -91,9 +89,10 @@ function ctrlLogoutClient() {
         dropDeviceCookies($client,$device);
     }
     $resp["logout"] = true;
-    arrayJSON($resp);
+    toJSON($resp);
 }
 
+// ---------- ---------- ---------- ---------- ---------- //
 
 // ----- Usuários ----- //
 
@@ -112,10 +111,9 @@ function ctrlLoginUser() {
         } else {
             $resp["user"] = false;
         }
-        arrayJSON($resp);
+        toJSON($resp);
     }
 }
-
 // INTERNA Checa usuário retorna true ou false.
 function checkUser() {
     extract($_COOKIE);
@@ -126,13 +124,11 @@ function checkUser() {
     }
     return false;
 }
-
 // Checa usuário retorna webservice.
 function ctrlCheckUser() {
     $resp["user"] = checkUser();
-    arrayJSON($resp);
+    toJSON($resp);
 }
-
 // Realiza o logout do usuário.
 function ctrlLogoutUser() {
     extract($_COOKIE);
@@ -142,9 +138,8 @@ function ctrlLogoutUser() {
         generateUserToken($id_user);
     }
     $resp["logout"] = true;
-    arrayJSON($resp);
+    toJSON($resp);
 }
-
 // Registra um novo usuário através de um usuário.
 function ctrlRegUser() {
     if (checkUser()) {
@@ -156,16 +151,15 @@ function ctrlRegUser() {
             $name = htmlspecialchars($name);
             if (!haveUserWithEmail($email)) {
                 $resp["reg_user"] = registerUser($email,$pass,$name);
-                arrayJSON($resp);
+                toJSON($resp);
             }
             $resp["message"] = "Email já cadastrado";
         }
     }
     $resp["reg_user"] = false;
-    arrayJSON($resp);
+    toJSON($resp);
 }
-
-
+// Atualiza um usuario
 function ctrlUpdUser() {
     if (checkUser()) {
         extract($_COOKIE);
@@ -178,25 +172,30 @@ function ctrlUpdUser() {
                 $pass = hash('sha256', $pass);
                 $id_user = htmlspecialchars($id_user);
                 $resp["upd_user"] = updUser($email,$pass,$name,$id_user);
-                arrayJSON($resp);
+                toJSON($resp);
             }
         }
     }
 }
 
+// ---------- ---------- ---------- ---------- ---------- //
+
+// Grupos
+
+// Cria um Grupo
 function ctrlRegProdGroup() {
     if (checkUser()) {
         extract($_POST);
         if (isset($description)) {
             $description = htmlspecialchars($description);
             $resp["reg_group"] = regProdGroup($description);
-            arrayJSON($resp);
+            toJSON($resp);
         }
     }
     $resp["reg_group"] = false;
-    arrayJSON($resp);
+    toJSON($resp);
 }
-
+// Atualiza o cadastro de um grupo
 function ctrlUpdProdGroup() {
     if (checkUser()) {
         extract($_POST);
@@ -204,35 +203,207 @@ function ctrlUpdProdGroup() {
             $description = htmlspecialchars($description);
             $id_group = htmlspecialchars($id_group);
             $resp["upd_group"] = updProdGroup($description,$id_group);
-            arrayJSON($resp);
+            toJSON($resp);
         }
     }
     $resp["upd_group"] = false;
-    arrayJSON($resp);
+    toJSON($resp);
 }
 
-// --- Produtos --- //
+// ---------- ---------- ---------- ---------- ---------- //
+
+// ----- Produtos ----- //
+
+// Retorna todos os Produtos
+function ctrlGetProds() {
+    $resp = getProds();
+    toJSON($resp);
+}
+// Retorna um Produto
+function ctrlGetProd() {
+    extract($_POST);
+    $id_product = htmlspecialchars($id_product);
+    $resp = getProd($id_product);
+    toJSON($resp);
+}
+// Busca em Produtos -- Em manutenção
+function ctrlSearchProds() {
+    extract($_POST);
+    $search = htmlspecialchars($search);
+    $active = htmlspecialchars($active);
+    $resp = searchProds($search, $active);
+    toJSON($resp);
+}
+// Cadastra um Produto
+function ctrlRegProd() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($name,$value,$description,$id_group)) {
+            $name = htmlspecialchars($name);
+            $value = htmlspecialchars($value);
+            $description = htmlspecialchars($description);
+            $id_group = htmlspecialchars($id_group);
+            $insert = regProd($name,$value,$description,$id_group);
+            if ($insert) {
+                $id_product = getLastInsertedID();
+                $resp["id_product"] = $id_product;
+                $resp["product"] = getProd($id_product);
+                $resp["reg_product"] = true;
+            } else {
+                $resp["reg_product"] = false;
+            }
+            toJSON($resp);
+        }
+    }
+}
+// Atualiza um produto
+function ctrlUpdProd() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($id_product,$name,$value,$description,$id_group,$active)){
+            $id_product = htmlspecialchars($id_product);
+            $name = htmlspecialchars($name);
+            $value = htmlspecialchars($value);
+            $description = htmlspecialchars($description);
+            $id_group = htmlspecialchars($id_group);
+            $active = htmlspecialchars($active);
+            $active = toBool($active);
+            if(is_object(getProd($id_product))) {
+                // verificar o grupo
+                $update = updProd($id_product,$name,$value,$description,$id_group,$active);
+                if ($update) {
+                    $resp["product"] = getProd($id_product);
+                    $resp["upd_product"] = true;
+                } else {
+                    $resp["upd_product"] = false;
+                }
+            } else {
+                $resp["upd_product"] = false;
+                $resp["message"] = "Product does not exist";
+            }
+        } else {
+            $resp["upd_product"] = false;
+            $resp["message"] = "Undefined Variable for Product ID and/or Name and/or Value and/or Description and/or Group ID and/or Active";
+        }
+        toJSON($resp);
+    }
+}
+// RESTRITA Altera o produto para ativo ou inativo
+function ctrlActiveInactivateProd() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($id_product)) {
+            $id_product = htmlspecialchars($id_product);
+            $prod = getProd($id_product);
+            if (toBool($prod->active)) {
+                activeInactiveProd($id_product,false);
+            } else {
+                activeInactiveProd($id_product,true);
+            }
+            $resp = getProd($id_product);
+        } else {
+            $resp['activeInactivate'] = false;
+            $resp["message"] = "Undefined Variable for Product";
+        }
+        toJSON($resp);
+    }
+}
+// RESTRITA Deleta um produto.
+function ctrlDelProd() {
+    if(checkUser()) {
+        extract($_POST);
+        if (isset($id_product)) {
+            $id_product = htmlspecialchars($id_product);
+            $resp['del_product'] = delProd($id_product);
+        } else {
+            $resp['del_product'] = false;
+            $resp["message"] = "Undefined Variable for Product";
+        }
+        toJSON($resp);
+    }
+}
+
+// ---------- ---------- ---------- ---------- ---------- //
+
+// ----- Imagens ----- //
+
+// RESTRITA Salva a imagem e referencia ela ao produto
 function ctrlAddProdImage() {
     if (checkUser()) {
         extract($_FILES);
         extract($_POST);
         if (isset($prodImage,$id_product)) {
             $id_product = htmlspecialchars($id_product);
-            if(checkImage($prodImage)){
-                $oldfileName = genFileName($prodImage);
-                $path = "../image/";
-                sendImage($prodImage,$path,$oldfileName);
-                $rsd = resizeImage($path.$oldfileName, 300, 300);
-                $fileName = "300x_".$oldfileName;
-                imagejpeg($rsd,$path.$fileName);
-                unlink($path.$oldfileName);
-                $regImage = dbRegProdImage($id_product,$fileName);
-                $resp["add_image"] = $regImage;
+            $prod = getProd($id_product);
+            if (is_object($prod)) {
+                if(checkImage($prodImage)){
+                    $fileName = renameResizeAndSaveImage($prodImage);
+                    $regImage = dbRegProdImage($id_product,$fileName);
+                    $resp["add_image"] = $regImage;
+                } else {
+                    $resp["add_image"] = false;
+                    $resp["message"] = "Image is not valid";
+                }
             } else {
                 $resp["add_image"] = false;
-                $resp["message"] = "Imagem Inválida";
+                $resp["message"] = "Product does not exist";
             }
-            arrayJSON($resp);
+        } else {
+            $resp["add_image"] = false;
+            $resp["message"] = "Undefined Variable for Product and/or Image";
         }
+        toJSON($resp);
     }
 }
+// IRRESTRITA Retorna as imagens se houver produto ou imagem
+function ctrlGetProdImages(){
+    extract($_POST);
+    $id_product = htmlspecialchars($id_product);
+    if (isset($id_product)) {
+        $prod = getProd($id_product);
+        if (is_object($prod)) {
+            $images = getProdImages($id_product);
+            $resp['product'] = true;
+            if(!empty($images)){
+                $resp['get_images'] = true;
+                $resp['images'] = $images;
+            } else {
+                $resp['get_images'] = false;
+                $resp["message"] = "There is no Image for this Product";
+                $resp['images'] = null;
+            }
+        } else {
+            $resp['get_images'] = false;
+            $resp["message"] = "The Product does not exist";
+            $resp['images'] = null;
+        }
+    } else {
+        $resp["get_images"] = false;
+        $resp["message"] = "Undefined Variable for Product";
+        $resp['images'] = null;
+    }
+    toJSON($resp);
+}
+// RESTRITA Deleta uma imagen se houver registro da imagem
+function ctrlDelProdImage() {
+    if (checkUser()) {
+        extract($_POST);
+        $id_image = htmlspecialchars($id_image);
+        if (isset($id_image)) {
+            $image = getProdImage($id_image);
+            if (is_object($image)) {
+                delImageFile($image->address);
+                $resp['del_image'] = delProdImage($id_image);
+            } else {
+                $resp['del_image'] = false;
+                $resp["message"] = "The Image does not exist";
+            }
+        } else {
+            $resp['del_image'] = false;
+            $resp["message"] = "Undefined Variable for Image";
+        }
+        toJSON($resp);
+    }
+}
+
+// ---------- ---------- ---------- ---------- ---------- //
