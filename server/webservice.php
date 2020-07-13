@@ -58,11 +58,17 @@ if (isset($req)) {
     // Grupo Produtos
     else if ($req == "reg_group") {
         ctrlRegProdGroup();
+    } else if ($req == "all_group") {
+        ctrlGetAllProdGroups();
+    } else if ($req == "get_group") {
+        ctrlGetProdGroup();
     } else if ($req == "upd_group") {
         ctrlUpdProdGroup();
-    } else if ($req == "") {
-        
-    } else if ($req == "") {
+    } else if ($req == "del_group") {
+        ctrlDelProdGroup();
+    }
+    // 
+    else if ($req == "") {
         
     } else if ($req == "") {
         

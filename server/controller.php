@@ -188,11 +188,55 @@ function ctrlRegProdGroup() {
         extract($_POST);
         if (isset($description)) {
             $description = htmlspecialchars($description);
-            $resp["reg_group"] = regProdGroup($description);
-            toJSON($resp);
+            $reg = regProdGroup($description);
+            if ($reg) {
+                $resp["reg_group"] = true;
+                $id = getLastInsertedID();
+                $resp["group"] = getProdGroupByID($id);
+            } else {
+                $resp["reg_group"] = false;
+                $resp["group"] = null;
+                $resp["message"] = Conexao::$msg;
+            }
+        } else {
+            $resp["reg_group"] = false;
+            $resp["group"] = null;
+            $resp["message"] = "Undefined Variable for Product Group";
         }
+        toJSON($resp);
     }
-    $resp["reg_group"] = false;
+}
+// Retorna os grupos dos produtos
+function ctrlGetAllProdGroups() {
+    extract($_POST);
+    $allProdGroups = getAllProdGroups();
+    if (!empty($allProdGroups)) {
+        $resp["get_groups"] = true;
+        $resp["qtd_groups"] = count($allProdGroups);
+        $resp["groups"] = $allProdGroups;
+    } else {
+        $resp["get_groups"] = false;
+        $resp["groups"] = null;
+        $resp["message"] = "There is no recorded group";
+    }
+    toJSON($resp);
+}
+// Retorna os grupos dos produtos
+function ctrlGetProdGroup() {
+    extract($_POST);
+    if (isset($id_group)) {
+        $id_group = htmlspecialchars($id_group);
+        $group = getProdGroupByID($id_group);
+        if (is_object($group)) {
+            $resp["group"] = $group;
+        } else {
+            $resp["group"] = null;
+            $resp["message"] = "There is no group recorded with this id";
+        }
+    } else {
+        $resp["upd_group"] = false;
+        $resp["message"] = "Undefined Variable for Description or Id_Group";
+    }
     toJSON($resp);
 }
 // Atualiza o cadastro de um grupo
@@ -202,13 +246,57 @@ function ctrlUpdProdGroup() {
         if (isset($description,$id_group)) {
             $description = htmlspecialchars($description);
             $id_group = htmlspecialchars($id_group);
-            $resp["upd_group"] = updProdGroup($description,$id_group);
-            toJSON($resp);
+            $group = getProdGroupByID($id_group);
+            if (is_object($group)) {
+                $update = updProdGroup($description,$id_group);
+                if ($update) {
+                    $resp["upd_group"] = true;
+                    $resp["group"] = getProdGroupByID($id_group);
+                } else {
+                    $resp["upd_group"] = false;
+                    $resp["message"] = Conexao::$msg;
+                }
+            } else {
+                $resp["upd_group"] = false;
+                $resp["message"] = "There is no group recorded with this id";
+            }
+            
+        } else {
+            $resp["upd_group"] = false;
+            $resp["message"] = "Undefined Variable for Description or Id_Group";
         }
+        toJSON($resp);
     }
     $resp["upd_group"] = false;
     toJSON($resp);
 }
+// Deleta um grupo pelo id
+function ctrlDelProdGroup() {
+    if (checkUser()) {
+        extract($_POST);
+        if (isset($id_group)) {
+            $group = getProdGroupByID($id_group);
+            if (is_object($group)) {
+                $del = delProdGroup($id_group);
+                if ($del) {
+                    $resp["del_group"] = true;
+                    $resp["message"] = "Group successfully deleted";
+                } else {
+                    $resp["del_group"] = false;
+                    $resp["message"] = Conexao::$msg;
+                }
+            } else {
+                $resp["upd_group"] = false;
+                $resp["message"] = "There is no group recorded with this id";
+            }
+        } else {
+            $resp["del_group"] = false;
+            $resp["message"] = "Undefined Variable for Id_Group";
+        }
+        toJSON($resp);
+    }
+}
+
 
 // ---------- ---------- ---------- ---------- ---------- //
 

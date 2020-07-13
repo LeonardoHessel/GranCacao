@@ -192,11 +192,33 @@ function regProdGroup($description){
     $cmd->bindParam(':description',$description);
     return $cmd->execute();
 }
+// Busca todos os grupos de produtos
+function getAllProdGroups() {
+    $sql = "SELECT * FROM `product_group`";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->execute();
+    return $cmd->fetchAll(PDO::FETCH_OBJ);
+}
+// Busca grupo por id
+function getProdGroupByID($id_group) {
+    $sql = "SELECT * FROM `product_group` WHERE `id_group`=:id_group";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_group',$id_group);
+    $cmd->execute();
+    return $cmd->fetch(PDO::FETCH_OBJ);
+}
 // Atualiza um Grupo
 function updProdGroup($description,$id_group) {
     $sql = 'UPDATE `product_group` SET `description`= :description WHERE `id_group`=:id_group';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':description',$description);
+    $cmd->bindParam(':id_group',$id_group);
+    return $cmd->execute();
+}
+// Deletaum Grupo pelo id
+function delProdGroup($id_group) {
+    $sql = "DELETE FROM `product_group` WHERE `id_group`=:id_group";
+    $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':id_group',$id_group);
     return $cmd->execute();
 }
