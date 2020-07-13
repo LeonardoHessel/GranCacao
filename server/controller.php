@@ -469,7 +469,7 @@ function ctrlAddProdImage() {
         extract($_POST);
         if (isset($prodImage,$id_product)) {
             $id_product = htmlspecialchars($id_product);
-            $prod = getProd($id_product);
+            $prod = getProduct($id_product);
             if (is_object($prod)) {
                 if(checkImage($prodImage)){
                     $fileName = renameResizeAndSaveImage($prodImage);
@@ -495,7 +495,7 @@ function ctrlGetProdImages(){
     extract($_POST);
     $id_product = htmlspecialchars($id_product);
     if (isset($id_product)) {
-        $prod = getProd($id_product);
+        $prod = getProduct($id_product);
         if (is_object($prod)) {
             $images = getProdImages($id_product);
             $resp['product'] = true;
