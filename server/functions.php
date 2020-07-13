@@ -226,33 +226,8 @@ function delProdGroup($id_group) {
 // ---------- ---------- ---------- ---------- ---------- //
 
 // ----- Produtos ----- //
-// Retorna todos os Produtos
-function getProds(){
-    $sql = "SELECT * FROM `product`";
-    $cmd = Con::PDO()->prepare($sql);
-    $cmd->bindParam(':id_product',$id_product);
-    $cmd->execute();
-    return $cmd->fetchAll(PDO::FETCH_OBJ);
-}
-// Retorna um produto
-function getProd($id_product){
-    $sql = "SELECT * FROM `product` WHERE `id_product`=:id_product";
-    $cmd = Con::PDO()->prepare($sql);
-    $cmd->bindParam(':id_product',$id_product);
-    $cmd->execute();
-    return $cmd->fetch(PDO::FETCH_OBJ);
-}
-// Busca em Produtos --- Em manutenção
-function searchProds($search, $active){
-    $sql = "SELECT * FROM `product` WHERE (`id_product` LIKE CONCAT('%',:search,'%') OR `nome` LIKE CONCAT('%',:search,'%') OR `value` LIKE CONCAT('%',:search,'%') OR `description` LIKE CONCAT('%',:search,'%'))AND `active`=:active";
-    $cmd = Con::PDO()->prepare($sql);
-    $cmd->bindParam(':search',$search);
-    $cmd->bindParam(':active',$active);
-    $cmd->execute();
-    return $cmd->fetchAll(PDO::FETCH_OBJ);
-}
 // Cadastra um produto.
-function regProd($name,$value,$description,$id_group) {
+function regProduct($name,$value,$description,$id_group) {
     $sql = 'INSERT INTO `product` VALUES (0,:name,:value,:description,:id_group,TRUE)';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':name',$name);
@@ -261,8 +236,24 @@ function regProd($name,$value,$description,$id_group) {
     $cmd->bindParam(':id_group',$id_group);
     return $cmd->execute();
 }
+// Retorna todos os Produtos
+function getAllProducts(){
+    $sql = "SELECT * FROM `product`";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_product',$id_product);
+    $cmd->execute();
+    return $cmd->fetchAll(PDO::FETCH_OBJ);
+}
+// Retorna um produto pelo id
+function getProduct($id_product){
+    $sql = "SELECT * FROM `product` WHERE `id_product`=:id_product";
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(':id_product',$id_product);
+    $cmd->execute();
+    return $cmd->fetch(PDO::FETCH_OBJ);
+}
 // Atualiza um produto
-function updProd($id_product,$name,$value,$description,$id_group,$active){
+function updProduct($id_product,$name,$value,$description,$id_group,$active){
     $sql = 'UPDATE `product` SET `name`=:name, `value`=:value, `description`=:description, `id_group`=:id_group, `active`=:active WHERE `id_product`=:id_product';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':name',$name);
@@ -274,7 +265,7 @@ function updProd($id_product,$name,$value,$description,$id_group,$active){
     return $cmd->execute();
 }
 // Altera o produto para ativo ou inativo
-function activeInactiveProd($id_product,$active){
+function changeProductActivation($id_product,$active){
     $sql = 'UPDATE `product` SET `active`=:active WHERE `id_product`=:id_product';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':id_product',$id_product);
@@ -282,7 +273,7 @@ function activeInactiveProd($id_product,$active){
     return $cmd->execute();
 }
 // Deleta um produto.
-function delProd($id_product) {
+function delProduct($id_product) {
     $sql = "DELETE FROM `product` WHERE `id_product`=:id_product LIMIT 1";
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(":id_product",$id_product);

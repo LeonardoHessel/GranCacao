@@ -234,8 +234,8 @@ function ctrlGetProdGroup() {
             $resp["message"] = "There is no group recorded with this id";
         }
     } else {
-        $resp["upd_group"] = false;
-        $resp["message"] = "Undefined Variable for Description or Id_Group";
+        $resp["group"] = null;
+        $resp["message"] = "Undefined Variable for Id_Group";
     }
     toJSON($resp);
 }
@@ -302,107 +302,154 @@ function ctrlDelProdGroup() {
 
 // ----- Produtos ----- //
 
-// Retorna todos os Produtos
-function ctrlGetProds() {
-    $resp = getProds();
-    toJSON($resp);
-}
-// Retorna um Produto
-function ctrlGetProd() {
-    extract($_POST);
-    $id_product = htmlspecialchars($id_product);
-    $resp = getProd($id_product);
-    toJSON($resp);
-}
-// Busca em Produtos -- Em manutenção
-function ctrlSearchProds() {
-    extract($_POST);
-    $search = htmlspecialchars($search);
-    $active = htmlspecialchars($active);
-    $resp = searchProds($search, $active);
-    toJSON($resp);
-}
 // Cadastra um Produto
-function ctrlRegProd() {
+function ctrlRegProduct() {
     if (checkUser()) {
         extract($_POST);
-        if (isset($name,$value,$description,$id_group)) {
+        if (isset($name,$value,$description)) {
             $name = htmlspecialchars($name);
             $value = htmlspecialchars($value);
             $description = htmlspecialchars($description);
-            $id_group = htmlspecialchars($id_group);
+            if (isset($id_group) && !empty($id_group)) {
+                $id_group = htmlspecialchars($id_group);
+                $group = getProdGroupByID($id_group);
+                if (!is_object($group)) {
+                    $id_group = null;
+                    $resp["message"] = "Product was registered without a group";
+                }
+            } else {
+                $id_group = null;
+                $resp["message"] = "Product was registered without a group";
+            }
             $insert = regProd($name,$value,$description,$id_group);
             if ($insert) {
                 $id_product = getLastInsertedID();
-                $resp["id_product"] = $id_product;
-                $resp["product"] = getProd($id_product);
                 $resp["reg_product"] = true;
+                $resp["product"] = regProduct($id_product);
             } else {
                 $resp["reg_product"] = false;
+                $resp["message"] = Conexao::$msg;
             }
-            toJSON($resp);
+        } else {
+            $resp["reg_product"] = false;
+            $resp["message"] = "Undefined Variable for Name and/or Value and/or Description";
         }
+        toJSON($resp);
     }
 }
+// Retorna todos os Produtos
+function ctrlGetAllProducts() {
+    $allProducts = getAllProducts();
+    if (!empty($allProducts)) {
+        $resp["all_products"] = true;
+        $resp["qtd_products"] = count($allProducts);
+        $resp["products"] = $allProducts;
+    } else {
+        $resp["all_products"] = false;
+        $resp["qtd_products"] = 0;
+        $resp["products"] = null;
+        $resp["message"] = "There is no recorded group";
+    }
+    toJSON($resp);
+}
+// Retorna um Produto
+function ctrlGetProduct() {
+    extract($_POST);
+    if (isset($id_product)) {
+        $id_product = htmlspecialchars($id_product);
+        $product = getProduct($id_product);
+        if (is_object($product)) {
+            $resp["product"] = $product;
+        } else {
+            $resp["product"] = null;
+            $resp["message"] = "There is no product recorded with this id";
+        }
+    } else {
+        $resp["product"] = null;
+        $resp["message"] = "Undefined Variable for Product";
+    }
+    toJSON($resp);
+}
 // Atualiza um produto
-function ctrlUpdProd() {
+function ctrlUpdProduct() {
     if (checkUser()) {
         extract($_POST);
-        if (isset($id_product,$name,$value,$description,$id_group,$active)){
+        if (isset($id_product,$name,$value,$description,$active)){
             $id_product = htmlspecialchars($id_product);
             $name = htmlspecialchars($name);
             $value = htmlspecialchars($value);
             $description = htmlspecialchars($description);
-            $id_group = htmlspecialchars($id_group);
             $active = htmlspecialchars($active);
             $active = toBool($active);
-            if(is_object(getProd($id_product))) {
-                // verificar o grupo
-                $update = updProd($id_product,$name,$value,$description,$id_group,$active);
+            if (isset($id_group) && !empty($id_group)) {
+                $id_group = htmlspecialchars($id_group);
+                $group = getProdGroupByID($id_group);
+                if (!is_object($group)) {
+                    $id_group = null;
+                    $resp["message"] = "Product has been updated without a group";
+                }
+            } else {
+                $id_group = null;
+                $resp["message"] = "Product has been updated without a group";
+            }
+            if(is_object(getProduct($id_product))) {
+                $update = updProduct($id_product,$name,$value,$description,$id_group,$active);
                 if ($update) {
-                    $resp["product"] = getProd($id_product);
                     $resp["upd_product"] = true;
+                    $resp["product"] = getProduct($id_product);
                 } else {
                     $resp["upd_product"] = false;
+                    $resp["message"] = Conexao::$msg;
                 }
             } else {
                 $resp["upd_product"] = false;
-                $resp["message"] = "Product does not exist";
+                $resp["message"] = "There is no product registered with this identification";
             }
         } else {
             $resp["upd_product"] = false;
-            $resp["message"] = "Undefined Variable for Product ID and/or Name and/or Value and/or Description and/or Group ID and/or Active";
+            $resp["message"] = "Undefined Variable for Product ID and/or Name and/or Value and/or Description and/or Active";
         }
         toJSON($resp);
     }
 }
 // RESTRITA Altera o produto para ativo ou inativo
-function ctrlActiveInactivateProd() {
+function ctrlChangeProductActivation() {
     if (checkUser()) {
         extract($_POST);
         if (isset($id_product)) {
             $id_product = htmlspecialchars($id_product);
-            $prod = getProd($id_product);
-            if (toBool($prod->active)) {
-                activeInactiveProd($id_product,false);
+            $product = getProduct($id_product);
+            if (is_object($product)) {
+                if (toBool($product->active)) {
+                    changeProductActivation($id_product,false);
+                } else {
+                    changeProductActivation($id_product,true);
+                }
+                $resp["product"] = getProduct($id_product);
             } else {
-                activeInactiveProd($id_product,true);
+                $resp["product"] = null;
+                $resp["message"] = "There is no product recorded with this id";
             }
-            $resp = getProd($id_product);
         } else {
             $resp['activeInactivate'] = false;
-            $resp["message"] = "Undefined Variable for Product";
+            $resp["message"] = "Undefined Variable for Product ID";
         }
         toJSON($resp);
     }
 }
-// RESTRITA Deleta um produto.
-function ctrlDelProd() {
+// Deleta um produto pelo id
+function ctrlDelProduct() {
     if(checkUser()) {
         extract($_POST);
         if (isset($id_product)) {
             $id_product = htmlspecialchars($id_product);
-            $resp['del_product'] = delProd($id_product);
+            $product = getProduct($id_product);
+            if (is_object($product)) {
+                $resp['del_product'] = delProduct($id_product);
+            } else {
+                $resp["del_product"] = false;
+                $resp["message"] = "There is no product recorded with this id";
+            }
         } else {
             $resp['del_product'] = false;
             $resp["message"] = "Undefined Variable for Product";
