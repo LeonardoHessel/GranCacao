@@ -41,6 +41,15 @@ $(document).ready(function(){
             $("#Repetir_senha").css("border-color", "red")
             $("#password-field").css("border-color", "red")
         }
+
+        if(Nome == '<script>' || Nome == '</script>') Nome.replace(/</i, "&gt").replace(/>/i, "&gt");
+
+        if(Email == '<script>' || Email == '</script>') Email.replace(/</i, "&gt").replace(/>/i, "&gt");
+
+        if(Senha == '<script>' || Senha == '</script>') Senha.replace(/</i, "&gt").replace(/>/i, "&gt");
+
+        if(Repetir_senha == '<script>' || Repetir_senha == '</script>') Repetir_senha.replace(/</i, "&gt").replace(/>/i, "&gt");
+
         //Var qtd de erros
         let qtderros = $('input.is-invalid').length
 
