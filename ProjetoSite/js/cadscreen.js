@@ -47,16 +47,26 @@ $(document).ready(function(){
         //Se a quantidade de erros for igual a 0, realize o cadastro
         if(qtderros == 0){
             $.ajax({
-                url:"http://localhost/.../server/webservice.php",
+                url:"http://localhost/GranCacao-master/server/webservice.php",
                 method: "POST",
                 data:{
-                    // FAZER O ENVIO DE DADOS
+                    "req": "reg_user",
+                    "email": Email,
+                    "pass": Senha,
+                    "name": ""
                 },
-                timeout: 3000
+                success: function(retorno){
+                    alert("Usuário Cadastrado com Sucesso")
+                    console.log(json)
+                },
+                timeout: 3000,
+                error: function(){
+                    alert("Error ao Cadastrar")
+                }
             })
         }
         else
-            alert("deu ruim")
+            alert("Error ao cadastrar campos")
         
     });
 });

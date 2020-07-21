@@ -27,10 +27,10 @@
                 <div class="mg-config mb-5">
                       <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
                       <h1 class="txt-CriarConta d-none d-lg-block">Login</h1>
-                      <input type="text" class="form-control my-4" placeholder="E-Mail">
+                      <input type="text" class="form-control my-4" placeholder="E-Mail" id="Email">
                       <input id="password-field" type="password" class="form-control" placeholder="Senha">
                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                      <button type="submit" class="btn-cad mt-3 font-Bitter" id="btn-cadastro">Entrar</button>
+                      <button type="submit" class="btn-cad mt-3 font-Bitter" id="btn-login">Entrar</button>
                 </div>
             </div>
         </div>
@@ -192,5 +192,28 @@
             input.attr("type", "password");
           }
         });
+        $("#btn-login").click(function(){
+            let Senha, Email
+
+            Senha = $("#password-field").val()
+            Email = $("#Email").val()
+            $.ajax({
+                url:"http://localhost/GranCacao-master/server/webservice.php",
+                method: "POST",
+                data:{
+                    "req":"getUser",
+                    "email":Email,
+                    "pass":Senha
+                },
+                success: function(retorno){
+                    alert("Login realizado com sucesso")
+                    console.log(json)
+                },
+                timeout: 3000,
+                error: function(){
+                    alert("Error ao Cadastrar")
+                }
+            })  
+          })
     });
 </script>
