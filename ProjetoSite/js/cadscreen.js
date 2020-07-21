@@ -1,69 +1,62 @@
+function RemoveVerificacao(){
+    $("input").removeClass("is-invalid");
+    $("input").removeClass("is-valid");
+}
+
 $(document).ready(function(){
     //Função de "ao clickar" no botão
     $("#btn-cadastro").click(function(){
+        // Faz a remoção das classes de verificação
+        RemoveVerificacao();
+
         //Declaração das variaveis
-        let Senha, Repetir_senha, Nome, Email;
+        let Email, Senha, RepetirSenha;
         //Pegando os valores HTML
-        Senha = $("#password-field").val();
-        Repetir_senha = $("#Repetir_senha").val();
-        Email = $("#Email").val();
-        Nome = $("#Nome").val();
-        //========================================
-        //Função de validação do nome
-        if(validar_nome(Nome) == true) 
-            $("#Nome").css("border-color", "green")
-        else
-        {
-            $("#Nome").css("border-color", "red")
-        }
-        //==========================================
+        Email = $("#txtEmail").val();
+        Senha = $("#txtSenha").val();
+        RepetirSenha = $("#txtRepetir_senha").val();
+         //==========================================
         //Função de validação do email
-        if(validar_email(Email) == true) 
-            $("#Email").css("border-color", "green")
+        if(validar_email(Email))
+            $("#txtEmail").addClass("is-valid");
         else
-        {
-            $("#Email").css("border-color", "red")
-        }
+            $("#txtEmail").addClass("is-invalid");
         //==========================================
         //função de validação da senha
-        if(validar_Senha(Senha) == true)
-            $("#password-field").css("border-color", "green")
+        if(validar_Senha(Senha))
+            $("#txtSenha").css("border-color", "green");
         else
-        {
-            $("#password-field").css("border-color", "red")
-        }
+            $("#txtSenha").css("border-color", "red");
         //==========================================
         //função de validação da repetição da senha
-        if(validar_resenha(Senha, Repetir_senha) == true)
-            $("#Repetir_senha").css("border-color", "green")
+        if(validar_resenha(Senha, RepetirSenha))
+            $("#txtRepetir_senha").addClass("is-valid");
         else
-        {
-            $("#Repetir_senha").css("border-color", "red")
-            $("#password-field").css("border-color", "red")
-        }
-
-        if(Nome == '<script>' || Nome == '</script>') Nome.replace(/</i, "&gt").replace(/>/i, "&gt");
+            $("#txtRepetir_senha").addClass("is-invalid");
+        //==========================================
 
         if(Email == '<script>' || Email == '</script>') Email.replace(/</i, "&gt").replace(/>/i, "&gt");
-
+    
         if(Senha == '<script>' || Senha == '</script>') Senha.replace(/</i, "&gt").replace(/>/i, "&gt");
-
-        if(Repetir_senha == '<script>' || Repetir_senha == '</script>') Repetir_senha.replace(/</i, "&gt").replace(/>/i, "&gt");
-
+    
+        if(RepetirSenha == '<script>' || RepetirSenha == '</script>') RepetirSenha.replace(/</i, "&gt").replace(/>/i, "&gt");
+        
         //Var qtd de erros
         let qtderros = $('input.is-invalid').length
 
         //Se a quantidade de erros for igual a 0, realize o cadastro
-        if(qtderros == 0)
-        {
+        if(qtderros == 0){
             $.ajax({
                 url:"http://localhost/.../server/webservice.php",
-                method: "get",
+                method: "POST",
                 data:{
-
+                    // FAZER O ENVIO DE DADOS
                 },
                 timeout: 3000
             })
         }
-    })
-})
+        else
+            alert("deu ruim")
+        
+    });
+});

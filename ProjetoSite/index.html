@@ -43,16 +43,16 @@
 		<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img class="d-block img" src="images/Background.jpg">
+					<img class="d-block img" src="images/Background-ajustado.jpg">
 				</div>
 				<div class="carousel-item">
-					<img class="d-block img" src="images/Background2.jpg">
+					<img class="d-block img" src="images/Background2-ajustado.jpg">
 				</div>
 				<div class="carousel-item">
-					<img class="d-block img" src="images/Background3.jpg">
+					<img class="d-block img" src="images/Background3-ajustado.jpg">
 				</div>
 				<div class="carousel-item">
-					<img class="d-block img" src="images/chocolate.jpg">
+					<img class="d-block img" src="images/chocolate-ajustado.jpg">
 				</div>
 			</div>
 		</div>
@@ -142,12 +142,13 @@
 					<!-- Botão Edição/Exclusão/Salvar -->
 				</div>
 			</div>
+			<!-- ADD CARD -->
 			<div class="col-xl-3 col-lg-6 mt-5">
-				<div class="bg-brown d-flex flex-column justify-content-center" style="height: 10vh;">
-					<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-plus text-success" aria-hidden="true"></i></button>
-
+				<div id="btnAddCard" class="bg-brown d-flex flex-column justify-content-center" style="height: 10vh;">
+					<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-plus text-light" aria-hidden="true"></i></button>
 				</div>
 			</div>
+			<!-- ADD CARD -->
 		</div>
 	</div>
 	<!-- CONTEUDO -->
@@ -192,14 +193,13 @@
 	<a href="https://www.facebook.com/gran.cacao.7" class="btn btn-social-icon mx-auto"><span class="fa fa-facebook"></span></a>
 	<a href="https://www.instagram.com/_gran.cacao/?hl=pt-br" class="btn btn-social-icon mx-auto"><span class="fa fa-instagram"></span></a>
 	<br>
-	<h6>© Copyright - Todos os direitos reservados para GranCacao</h6>
+	<h6 class="text-light">© Copyright - Todos os direitos reservados para GranCacao</h6>
 </footer>
 </html>
 <!-- CSS -->
 <style>
 	body{
-		background-color: #ebebeb;
-		color: white;
+		background-color:#fffef7;
 	}
 	.btn-social-icon{
 		color: white;
@@ -249,7 +249,7 @@
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 100% !important;
-		
+		height: auto;
 	}
 	.logo{
 		font-family: 'Lobster', cursive;
@@ -261,6 +261,10 @@
 		width: 100%;
 		height: 150px;
 	}
+	#btnAddCard:hover{
+		background-color: #664c40;
+		transition: 0.5s;
+	}
 	html{
 		overflow-y: scroll;
 		scroll-behavior: smooth;
@@ -270,31 +274,6 @@
 			position: absolute;
 			z-index: 1;	
 		} 
-	}
-	@media(min-width: 800px){
-		.img{
-			height: 70vh;
-		}
-	}
-	@media(min-width: 1400px){
-		.img{
-			height: 90vh;
-		}	
-	}
-	@media(max-width: 993px){
-		.img{
-			height: 50vh;
-		}	
-	}
-	@media(max-width: 540px){
-		.img{
-			height: 40vh;
-		}
-	}
-	@media(max-width: 400px){
-		.img{
-			height: 30vh;
-		}
 	}
 	@media(max-width: 991px){
 		.img-card{

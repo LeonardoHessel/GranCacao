@@ -33,12 +33,11 @@
                 <div class="mg-config">
                         <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
                         <h1 class="txt-CriarConta d-none d-lg-block">Criar Conta</h1>
-                        <input type="text" class="form-control my-4" placeholder="Nome completo" id="Nome">
-                        <input type="text" class="form-control my-4" placeholder="E-Mail" id="Email">
-                        <input id="password-field" type="password" class="form-control" placeholder="Senha">
-                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                        <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="Repetir_senha">
-                        <button type="submit" class="btn-cad my-2" id="btn-cadastro">Cadastrar-se</button>
+                        <input type="text" class="form-control my-4" placeholder="E-Mail" id="txtEmail">
+                        <input id="txtSenha" type="password" class="form-control" placeholder="Senha">
+                        <span toggle="#txtSenha" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="txtRepetir_senha">
+                        <button type="button" class="btn-cad my-2 font-Bitter" id="btn-cadastro">Cadastrar-se</button>
                     </div>
                 </div>
             </div>
@@ -51,6 +50,10 @@
 <style>
     .mg-config{
         margin-top:30vh;
+    }
+    .font-Bitter{
+        font-family: 'Bitter', serif;
+        text-shadow: 2px 1px 2px #000000;
     }
     .bg-marrom{
         background-color: #211814;
@@ -78,11 +81,11 @@
         border-color: #150b06;
         background-color: #5b2e1a;
         color: white;
-        border-width: 2px;
+        border-width: 0.5px;
         border-radius: 0.2em;
         max-width: auto;
         height: 6vh;
-        box-shadow: 2px 3px #000000;
+        box-shadow: 1px 2px #000000;
         font-size: 18px;
     }
     .btn-cad:hover{

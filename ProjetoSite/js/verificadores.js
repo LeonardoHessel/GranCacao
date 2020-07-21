@@ -1,43 +1,73 @@
-//Função da validação do nome
-function validar_nome(Nome)
-{   
-    //Variavel que vai armazenar as separações pelo espaço
-    let separador = Nome.split(' ')
-    if(separador.length == 1 || separador.length == 0) return false
-    else return true
-}
-
 //Função de validação do Email
-function validar_email(Email)
-{
-    //Variavel que vai armazenar as separações pelo @
-    let separador = Email.split('@')
+function validar_email(Email){
+    // Verifica se o email possui algum espaço
+    if ((Email.split(" ")).length > 1) 
+        return false;  
 
-    if(separador.length == 2)
-    {
-        //armazenar as separações pelo .
-        separador = Email.split(".")
-        if(separador.length == 2) return true
-        else return false
-    }
-    else return false
+    //Variavel que vai armazenar as separações pelo espaço
+    var separador = Email.split("@");
+    if (separador.length == 2)
+        return separador[1].split(".").length > 1;
+    else 
+        return false;
 }
 
 //Função da validação da senha
-function validar_Senha(Senha)
-{   
-    //Deve conter no minimo 6 digitos
-    if(Senha.length < 6) return false
-    else return true
+function validar_Senha(Senha){  
+    // A senha deve conter no minimo seis caracteres e não pode conter nenhum cacter especial 
+    if(Senha.length < 6 || Senha.match(/[!"#$%&'()*+,:;<=>?@[\]^`{|}~]/)) 
+        return false
+    else 
+        return true
 }
 
-function validar_resenha(Senha, Repetir_senha)
-{
-    //Se ela for nula, false
-    if(Repetir_senha.length == 0) return false
-
-    //Se elas forem iguais, true
-    if(Senha == Repetir_senha) return true
-    //Se não false
-    else return false
+function validar_resenha(Senha, Repetir_senha){
+    // As senhas devem ser as mesmas, a senha não poder ser um valor nulo e não pode conter nenhum cacter especial
+    if(Repetir_senha!=Senha || Repetir_senha.length==0 || Repetir_senha.match(/[!"#$%&'()*+,:;<=>?@[\]^`{|}~]/))
+        return false
+    else
+        return true
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
