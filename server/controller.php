@@ -3,7 +3,6 @@
 // Limitar o acesso.
 
 require_once 'functions.php';
-
 // ---------- ---------- ---------- ---------- ---------- //
 
 // ----- Clientes ---- //
@@ -321,11 +320,11 @@ function ctrlRegProduct() {
                 $id_group = null;
                 $resp["message"] = "Product was registered without a group";
             }
-            $insert = regProd($name,$value,$description,$id_group);
+            $insert = regProduct($name,$value,$description,$id_group);
             if ($insert) {
                 $id_product = getLastInsertedID();
                 $resp["reg_product"] = true;
-                $resp["product"] = regProduct($id_product);
+                $resp["product"] = getProduct($id_product);
             } else {
                 $resp["reg_product"] = false;
                 $resp["message"] = Conexao::$msg;
@@ -342,11 +341,12 @@ function ctrlGetAllProducts() {
     $allProducts = getAllProducts();
     if (!empty($allProducts)) {
         $resp["all_products"] = true;
-        $resp["qtd_products"] = count($allProducts);
+        foreach ($allProducts as $prod) {
+            $prod->images = getProdImages($prod->id_product);
+        }
         $resp["products"] = $allProducts;
     } else {
         $resp["all_products"] = false;
-        $resp["qtd_products"] = 0;
         $resp["products"] = null;
         $resp["message"] = "There is no recorded group";
     }
@@ -359,6 +359,7 @@ function ctrlGetProduct() {
         $id_product = htmlspecialchars($id_product);
         $product = getProduct($id_product);
         if (is_object($product)) {
+            $product->images = getProdImages($product->id_product);
             $resp["product"] = $product;
         } else {
             $resp["product"] = null;

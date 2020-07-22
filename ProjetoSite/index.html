@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/main.js"></script>
 	<script src="js/produtos.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
 		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -36,11 +37,10 @@
 				<a class="navbar-brand logo d-none d-lg-block">Gran Cacao</a>
 				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#cardapio">Cardápio</a></li>
 				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#footer">Contato</a></li>
-				<li class="nav-item active mx-lg-5"><a class="nav-link" href="Login.html">Sobre</a></li>
+				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#sobre">Sobre</a></li>
 				<li class="nav-item active mx-lg-5">
-					<a class="nav-link" href="cadscreen.html">
-						<i class="material-icons">https</i>
-					</a>
+					<a class="nav-link" href="Login.html" id="login">Logar</a>
+					<a class="nav-link" href="#" onclick="Logout()" id="logout">Sair</a>
 				</li>
 			</ul>
 		</div>
@@ -118,24 +118,22 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-dark" id="exampleModalLabel">Produto</h5>
+					<h5 class="modal-title text-dark" id="mdTitle">Produto</h5>
 				</div>
 				<div class="modal-body">
 					<form>
 						<!-- Nome do Produto -->
 						<div class="form-group">
-							<label for="recipient-name" class="col-form-label text-dark">Nome do Produto:</label>
-							<input type="text" class="form-control" id="lblNomeProduto">
+							<label for="txtNome" class="col-form-label text-dark">Nome do Produto:</label>
+							<input type="text" class="form-control" id="txtNome">
 						</div>
 						<!-- Adicionar Imagem -->
-						<form runat="server">
-							<input type='file' id="imgInp" />
-							<img id="blah" src="#" width="100%" height="auto" />
-						</form>
+						<input type='file' id="loadIMG" />
+						<img id="blah" src="#" width="100%" height="auto" />
 						<!-- Descrição do produto -->
 						<div class="form-group">
-							<label for="message-text" class="col-form-label text-dark">Descrição:</label>
-							<textarea class="form-control" id="lblDescricao"></textarea>
+							<label for="txtDescricao" class="col-form-label text-dark">Descrição:</label>
+							<textarea class="form-control" id="txtDescricao"></textarea>
 						</div>
 					</form>
 				</div>
