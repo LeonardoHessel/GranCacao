@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTANDO BOOTSTRAP -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <!-- IMPORTANDO JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- IMPORTANDO FUNCIONALIDADES DO BOOTSTRAP -->
     <script src="js/bootstrap.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <!-- IMPORTANDO FONT LOBSTER -->
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+    <!-- IMPORTANDO FONT BITTER -->
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+    <!-- IMPORTANDO ÍCONES -->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/> -->
+    <!-- IMPORTANDO ANIMAÇÃO -->
     <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- IMPORTANDO SOBRE.CSS -->
+    <link rel="stylesheet" href="css/sobre.css">
+    <!-- IMPORTANDO SOBRE.JS -->
+    <script src="js/sobre.js"></script>
+    <!-- ADICIONANDO ÍCONE PARA A PÁGINA -->
+    <link rel="icon" href="images/truffle.png">
     <title>Gran Cacao</title>
 </head>
 <body class="p-0 m-0">
@@ -29,27 +40,27 @@
 	</nav>
     <!-- NAVBAR -->
     
-    <!-- Monstruario 1 -->
+    <!-- Mostruario 1 -->
     <section class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
                 <img src="images/Background.jpg" class="responsive-img-fundo">
             </div>
             <div class="col-lg-6 offset-lg-3 col-md-12 bg-brown-t rounded border border-white txt-config p-3">
-                <p class="font-Bitter text-justify text-light">
+                <p class="font-Bitter text-justify text-light h5">
                     A Gran Cacao é uma loja de doçuras fundada em 2018 com fim de produzir os mais deliciosos derivados do cacau.
-                    Usando a tradição da família, vendemos várias derivadas, de ovos da Páscoa até bolos, de forma intuitiva e feita com muito amor para nossos clientes
+                    Usando a tradição da família, vendemos várias derivadas, de ovos da Páscoa até bolos, de forma intuitiva e feita com muito amor para nossos clientes.
                 </p>
             </div>
         </div> 
     </section>
-    <!-- Monstruario 1 -->
+    <!-- Mostruario 1 -->
 
-    <!-- Monstruario 2 -->
+    <!-- Mostruario 2 -->
     <section class="container-fluid my-5">
         <div class="row efeito" id="card1">
             <div class="col-lg-5 p-0">
-                <img src="images/gran3.png" class="responsive-img">
+                <img src="images/gran4.jpg" class="responsive-img">
             </div>
             <div class="col-lg-7 bg-brown p-0">
                 <p class="font-Bitter text-justify text-light p-3">
@@ -60,9 +71,9 @@
             </div>
         </div>
     </section>
-    <!-- Monstruario 2 -->
+    <!-- Mostruario 2 -->
 
-    <!-- Monstruario 3 -->
+    <!-- Mostruario 3 -->
     <section class="container-fluid my-5">
         <div class="row efeito" id="card2">
             <div class="col-lg-5 p-0 d-lg-none d-block">
@@ -80,7 +91,7 @@
             </div>
         </div>
     </section>
-    <!-- Monstruario 3 -->
+    <!-- Mostruario 3 -->
 </body>
 
 <footer id="footer" class="text-center">
@@ -89,110 +100,3 @@
 	<br>
 	<h6 class="text-light">© Copyright - Todos os direitos reservados para GranCacao</h6>
 </footer>
-
-
-<style>
-    body{
-        background-color:#fffef7;
-    }
-    .font-Lobster{
-        font-family: 'Lobster', cursive;
-    }
-    .font-Bitter{
-        font-family: 'Bitter', serif;
-        text-shadow: 2px 1px 2px #000000;
-    }
-    .responsive-img-fundo{
-        width: 100%;
-        height: auto;	
-    }
-    .responsive-img{
-        width: 100%;
-        height: auto;	
-    }
-    .navbar{
-            z-index: 1 !important; 
-            position: absolute !important; 
-            width: 100%; 
-        }
-    .bg-brown-t{
-        background: rgba(74, 55, 47, 0.8);
-    }
-    .bg-brown{
-        background-color: #4a372f;
-    }
-    .bg-dark{
-        background: rgba(15, 15, 15, 0.9) !important;
-        border-bottom: 5px solid;
-		border-color: #FEFEFE;
-		border-width: 1px;
-    }
-    .txt-config{
-        z-index: 1; 
-        position: absolute; 
-        margin-top: 15%;
-    }
-    .my-5{
-        margin-top: 20vh !important;
-        margin-bottom: 20vh !important;
-    }
-    .efeito {
-        -webkit-transition: all .5s linear;
-        -moz-transition: all .5s linear;
-        transition: all .5s linear;
-        opacity: 0;
-    }
-    .efeito_aparecer {
-        opacity: 1;
-    }
-    footer{
-		background-color: #0f0f0f;
-		margin-top: 5vh;
-		padding: 50px;
-	}
-    .btn-social-icon{
-		color: white;
-	}
-	.btn-social-icon:hover{
-		color: white;
-	}
-    @media(max-width: 992px){
-		.txt-config{
-            z-index: 0; 
-            position: relative; 
-            margin-top: 0;
-        }
-        .navbar{
-            z-index: 0 !important; 
-            position: relative !important; 
-            width: 100%; 
-        }
-        .bg-brown-t{
-            background-color: #4a372f;
-        }
-        .border{
-            border-style: none !important;
-        }
-        .rounded{
-            border-radius: 0 !important;
-        }
-	}
-</style>
-
-<script>
-	$(() =>{
-		$(window).scroll(function(){
-            var widthScreen = window.screen.width; 
-			var scroll = $(window).scrollTop();
-			if (scroll > 200){
-                $('#card1').addClass('animated bounceInRight');
-                $('#card1').addClass('efeito_aparecer');
-            } 
-            if(scroll > 700){
-                $('#card2').addClass('animated bounceInLeft');
-                $('#card2').addClass('efeito_aparecer');
-            }
-		});	
-    });
-
-</script>

@@ -4,17 +4,27 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- IMPORTANDO BOOTSTRAP -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<!-- IMPORTANDO JQUERY -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- IMPORTANDO FUNCIONALIDADES DO BOOTSTRAP -->
 	<script src="js/bootstrap.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/produtos.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<!-- IMPORTANDO FONT LOBSTER -->
 	<link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+	<!-- IMPORTANDO FONT BITTER -->
 	<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+	<!-- IMPORTANDO ÍCONES -->
 	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- IMPORTANDO PÁGINA MAIN.JS -->
+	<script src="js/main.js"></script>
+	<!-- IMPORTANDO PÁGINA PRODUTOS.JS -->
+	<script src="js/produtos.js"></script>
+	<!-- IMPORANDO MAIN.CSS -->
+	<link rel="stylesheet" href="css/main.css">
+	<!-- ADICIONANDO ÍCONE PARA A PÁGINA -->
+	<link rel="icon" href="images/truffle.png">
 	<title>Gran Cacao</title>
 </head>
 
@@ -37,7 +47,7 @@
 				<a class="navbar-brand logo d-none d-lg-block">Gran Cacao</a>
 				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#cardapio">Cardápio</a></li>
 				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#footer">Contato</a></li>
-				<li class="nav-item active mx-lg-5"><a class="nav-link" href="#sobre">Sobre</a></li>
+				<li class="nav-item active mx-lg-5"><a class="nav-link" href="Sobre.html">Sobre</a></li>
 				<li class="nav-item active mx-lg-5">
 					<a class="nav-link" href="Login.html" id="login">Logar</a>
 					<a class="nav-link" href="#" onclick="Logout()" id="logout">Sair</a>
@@ -113,6 +123,7 @@
 		</div>
 	</div>
 	<!-- MODAL ADD CARD -->
+	
 	<!-- Modal de Edição Produto-->
 	<div class="modal fade" id="modalProd" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -145,7 +156,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- MODAL ADD CARD -->
+	<!-- Modal de Edição Produto-->
 </body>
 <footer id="footer" class="text-center">
 	<a href="https://www.facebook.com/gran.cacao.7" class="btn btn-social-icon mx-auto"><span
@@ -157,115 +168,6 @@
 </footer>
 
 </html>
-<!-- CSS -->
-<style>
-	body {
-		background-color: #fffef7;
-	}
-
-	.btn-social-icon {
-		color: white;
-	}
-
-	.btn-social-icon:hover {
-		color: white;
-	}
-
-	footer {
-		background-color: #0f0f0f;
-		margin-top: 5vh;
-		padding: 50px;
-	}
-
-	nav {
-		border-bottom: 5px solid;
-		border-color: #FEFEFE;
-		border-width: 1px;
-	}
-
-	.bg-dark {
-		width: 100%;
-		background: rgba(15, 15, 15, 0.9) !important;
-	}
-
-	.bg-brown {
-		background-color: #4a372f;
-		border-radius: 25px;
-		border-style: solid;
-		border-width: 2px;
-		border-color: #1a1310;
-		box-shadow: inset 0 0 1em #120d0b;
-		padding: 20px;
-		color: white;
-	}
-
-	.btn-carrosel {
-		background-color: black;
-		height: 9%;
-		border-radius: 25px;
-	}
-
-	.nav-link {
-		font-family: 'Bitter', serif;
-		font-size: 20px;
-		margin-top: 10px !important;
-	}
-
-	.nav-link:hover {
-		color: #ffffff !important;
-		transition: 0.5s;
-	}
-
-	.img {
-		background-repeat: no-repeat;
-		background-position: center;
-		width: 100% !important;
-		height: auto;
-	}
-
-	.logo {
-		font-family: 'Lobster', cursive;
-		font-size: 40px;
-	}
-
-	.img-card {
-		background-repeat: no-repeat;
-		position: relative;
-		width: 100%;
-		height: 150px;
-	}
-
-	#btnAddCard:hover {
-		background-color: #664c40;
-		transition: 0.5s;
-	}
-
-	html {
-		overflow-y: scroll;
-		scroll-behavior: smooth;
-	}
-
-	@media(min-width: 992px) {
-		.bg-dark {
-			position: absolute;
-			z-index: 1;
-		}
-	}
-
-	@media(max-width: 991px) {
-		.img-card {
-			width: 100%;
-			height: auto;
-		}
-	}
-
-	@media(min-width: 992px) {
-		.img-card {
-			width: 100%;
-			height: 200px;
-		}
-	}
-</style>
 <script>
 	$(document).ready(function () {
 		function readURL(input) {

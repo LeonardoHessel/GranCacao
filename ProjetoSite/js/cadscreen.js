@@ -4,6 +4,17 @@ function RemoveVerificacao(){
 }
 
 $(document).ready(function(){
+    // FUNCIONALIDADE DE EXIBIR/OCULTAR SENHA
+    $(".toggle-password").click(function(){
+
+        $(this).toggleClass("fas fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+
+        if(input.attr("type") == "password")
+            input.attr("type", "text");
+        else 
+            input.attr("type", "password");
+        });
     //Função de "ao clickar" no botão
     $("#btn-cadastro").click(function(){
         // Faz a remoção das classes de verificação

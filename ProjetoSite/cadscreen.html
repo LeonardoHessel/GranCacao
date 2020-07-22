@@ -4,13 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTANDO BOOTSTRAP -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <!-- IMPORTANDO JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <!-- IMPORANDO FONT LOBSTER -->
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <!-- IMPORANDO FONT BITTER -->
     <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+    <!-- IMPORTANDO ÍCONES -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- IMPORTNADO PÁGINA CADSCREEN.JS -->
     <script src="js/cadscreen.js"></script>
+    <!-- IMPORTNADO PÁGINA VERIFICADORES.JS -->
     <script src="js/verificadores.js"></script>
+    <!-- IMPORANDO CADSCREEN.CSS -->
+    <link rel="stylesheet" href="css/cadscreen.css">
+    <!-- ADICIONANDO ÍCONE PARA A PÁGINA -->
+    <link rel="icon" href="images/truffle.png">
     <title>Cadastro</title>
 </head>
 <body class="m-0">  
@@ -46,117 +57,3 @@
     </div>
 </body>
 </html>
-
-<style>
-    .mg-config{
-        margin-top:30vh;
-    }
-    .font-Bitter{
-        font-family: 'Bitter', serif;
-        text-shadow: 2px 1px 2px #000000;
-    }
-    .bg-marrom{
-        background-color: #211814;
-    }
-    .img-fundo{
-        background-position: left;
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        left: 5px;
-        top: 0px;
-        z-index: -1;
-        filter: blur(5px);
-        opacity: 0.5;
-    }
-    .field-icon{
-        float: right;
-        padding-right: 25px;
-        margin-top: -25px;
-    }
-    .btn-cad{
-        border-style: solid;
-        border-color: #150b06;
-        background-color: #5b2e1a;
-        color: white;
-        border-width: 0.5px;
-        border-radius: 0.2em;
-        max-width: auto;
-        height: 6vh;
-        box-shadow: 1px 2px #000000;
-        font-size: 18px;
-    }
-    .btn-cad:hover{
-        background-color: #662e15;
-        transition: background-color 0.5s;
-    }
-    .barra{
-        background-color: #5c3b31;
-        width: 26vw;
-        height: 8px;
-        border-radius: 50px;
-    }
-    .txt-Gran{
-        font-family: 'Lobster', cursive;
-        color: #5c3a31;
-        text-shadow: 1px 2px 2px #000000;
-        font-size: 100px;
-    }
-    .txt-Gran-Mobile{
-        font-family: 'Lobster', cursive;
-        color: #5c3a31;
-        text-shadow: 1px 2px 2px #000000;
-        font-size: 70px;
-        text-align: center;
-        margin-top:-15vh;
-    }
-    .txt-CriarConta{
-        font-family: 'Lobster', cursive;
-        color: #5c3a31;
-        text-shadow: 1px 2px 2px #000000;
-        font-size: 70px;
-        text-align: center;
-        margin-top:-25vh;
-    }
-    .txt-truafaria{
-        color: #5c3a31;
-        font-family: 'Bitter', serif;
-        text-shadow: 1px 2px 2px #000000;
-        font-size: 35px;
-    }
-    .txt-data{
-        color: #5c3a31;
-        font-family: 'Bitter', serif;
-        background-color: #b09e6c;
-        border-style: solid;
-        border-width: 2px;
-        border-radius: 50px;
-        width: 10vw;
-        font-size: 15px;
-        padding: 5px;
-    }
-    @media screen and (max-width: 992px) {
-        .mg-config{
-            margin-top: 10vh;
-        }
-    }
-</style>
-
-<script>
-    $(document).ready(function(){
-        $(".toggle-password").click(function() {
-
-        $(this).toggleClass("fas fa-eye-slash");
-        var input = $($(this).attr("toggle"));
-
-        if (input.attr("type") == "password") {
-            input.attr("type", "text");
-
-        } else {
-            input.attr("type", "password");
-        }
-        });
-    });
-</script>
