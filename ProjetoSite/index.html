@@ -86,11 +86,15 @@
 					<h5 class="modal-title text-dark" id="exampleModalLabel">Adicionar Produto</h5>
 				</div>
 				<div class="modal-body">
-					<form>
-						<!-- Nome do Produto -->
+					<form class="">
 						<div class="form-group">
-							<label for="recipient-name" class="col-form-label text-dark">Nome do Produto:</label>
-							<input type="text" class="form-control" id="lblNomeProduto">
+							<label for="nomeProduto" class="col-form-label text-dark">Nome do Produto:</label>
+							<input type="text" class="form-control" id="nomeProduto">
+							<label for="idProduto" class="col-form-label text-dark">ID:</label>
+							<input type="text" class="form-control" id="idProduto">
+						</div>
+						<div class="form-group">
+
 						</div>
 						<!-- Adicionar Imagem -->
 						<form runat="server">
@@ -120,28 +124,51 @@
 				<div class="modal-header">
 					<h5 class="modal-title text-dark" id="mdTitle">Produto</h5>
 				</div>
-				<div class="modal-body">
-					<form>
-						<!-- Nome do Produto -->
-						<div class="form-group">
-							<label for="txtNome" class="col-form-label text-dark">Nome do Produto:</label>
-							<input type="text" class="form-control" id="txtNome">
+				<form class="" id="Product" enctype="multipart/form-data" name="Product">
+					<input type="text" name="req" id="req" value="reg_product" hidden>
+					<div class="modal-body container">
+						<div class="row">
+							<div class="form-group col-10">
+								<input type="text" name="name" class="form-control" id="name" placeholder="nome">
+							</div>
+							<div class="form-group col-2">
+								<input type="text" name="id" class="form-control" id="id" value="0" disabled>
+							</div>
 						</div>
-						<!-- Adicionar Imagem -->
-						<input type='file' id="loadIMG" />
-						<img id="blah" src="#" width="100%" height="auto" />
-						<!-- Descrição do produto -->
-						<div class="form-group">
-							<label for="txtDescricao" class="col-form-label text-dark">Descrição:</label>
-							<textarea class="form-control" id="txtDescricao"></textarea>
+						<div class="row">
+							<div class="form-group col-8">
+								<input type="number" step="0.01" name="value" class="form-control" id="value"
+									placeholder="valor">
+							</div>
+							<div class="form-group col-4">
+								<select class="form-control" name="active" id="cars">
+									<option value="0">Inativo</option>
+									<option value="1">Ativo</option>
+								</select>
+							</div>
 						</div>
-					</form>
-				</div>
-				<!-- BOTÕES FECHAR/SALVAR -->
-				<div class="modal-footer">
-					<button id="btnCloseModal" type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-					<button id="btnSalvarModal" type="button" class="btn btn-success">Salvar</button>
-				</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<textarea class="form-control" id="description" placeholder="descrição"
+									name="description"></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<input type='file' name="images[]" id="images" multiple>
+								<!-- <img id="blah" src="#" width="100%" height="auto" /> -->
+							</div>
+						</div>
+						<div class="row" id="teste">
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="btnCloseModal" type="button" class="btn btn-danger"
+							data-dismiss="modal">Fechar</button>
+						<input class="btn btn-success" type="submit" value="Salvar"></input>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

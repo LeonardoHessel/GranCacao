@@ -1,5 +1,7 @@
 var url = "http://grancacao/server/webservice.php"
 
+
+
 function CheckUser() {
     let user = true
     $.ajax({
@@ -42,6 +44,34 @@ $(document).ready(function () {
         $("#logout").hide()
     }
 
+    $('#Product').submit(function (e) {
+        e.preventDefault()
+        let data = new FormData(Product);
+        // for (var value of data.values()) {
+        //     console.log(value);
+        // }
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: data,
+            cache: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            async: false,
+            success: function (resp) {
+                console.log(resp)
+                $('#teste').html('')
+                $('#teste').html(resp)
+            },
+            timeout: 3000,
+            error: function (resp) {
+                console.log(resp)
+                $('#teste').html('')
+                $('#teste').html(resp)
+            }
+        })
+    })
 })
 
 

@@ -305,6 +305,7 @@ function ctrlDelProdGroup() {
 function ctrlRegProduct() {
     if (checkUser()) {
         extract($_POST);
+        extract($_FILES);
         if (isset($name,$value,$description)) {
             $name = htmlspecialchars($name);
             $value = htmlspecialchars($value);
@@ -324,6 +325,25 @@ function ctrlRegProduct() {
             if ($insert) {
                 $id_product = getLastInsertedID();
                 $resp["reg_product"] = true;
+                $id_product = getProduct($id_product)->id_product;
+                if (isset($images)){
+                    for ($i=0; $i < sizeof($images['name']); $i++) {
+                        $img['name'] = $images['name'][$i];
+                        $img['type'] = $images['type'][$i];
+                        $img['tmp_name'] = $images['tmp_name'][$i];
+                        $img['error'] = $images['error'][$i];
+                        $img['size'] = $images['size'][$i];
+                        $imgs[] = $img;
+                    }
+                    foreach ($imgs as $img) {
+                        if(checkImage($img)){
+                            $fileName = renameResizeAndSaveImage($img);
+                            dbRegProdImage($id_product,$fileName);
+                            
+                        }
+                    }
+                    //toJSON($resp);
+                }
                 $resp["product"] = getProduct($id_product);
             } else {
                 $resp["reg_product"] = false;
