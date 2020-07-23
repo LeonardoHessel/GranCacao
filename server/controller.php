@@ -466,7 +466,13 @@ function ctrlDelProduct() {
             $id_product = htmlspecialchars($id_product);
             $product = getProduct($id_product);
             if (is_object($product)) {
-                $resp['del_product'] = delProduct($id_product);
+                if (delProdImageByProduct($id_product) && delProduct($id_product)) {
+                    $resp['del_product'] = true;
+                } else {
+                    $resp["del_product"] = false;
+                    // $resp["message"] = Conexao::$msg;
+                    $resp["message"] = "aqui";
+                }
             } else {
                 $resp["del_product"] = false;
                 $resp["message"] = "There is no product recorded with this id";

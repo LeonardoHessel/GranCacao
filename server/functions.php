@@ -274,7 +274,7 @@ function changeProductActivation($id_product,$active){
 }
 // Deleta um produto.
 function delProduct($id_product) {
-    $sql = "DELETE FROM `product` WHERE `id_product`=:id_product LIMIT 1";
+    $sql = "DELETE FROM `product` WHERE `id_product`=:id_product";
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(":id_product",$id_product);
     return $cmd->execute();
@@ -318,14 +318,20 @@ function getProdImage($id_image){
     $cmd->execute();
     return $cmd->fetch(PDO::FETCH_OBJ);
 }
-// Deleta uma imagen se houver produto ou imagem
+// Deleta uma imagen
 function delProdImage($id_image) {
     $sql = "DELETE FROM `product_image` WHERE `id_image`=:id_image";          
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(":id_image", $id_image);
     return $cmd->execute();
 }
-
+// Deleta uma imagen apartir do produto
+function delProdImageByProduct($id_product) {
+    $sql = "DELETE FROM `product_image` WHERE `id_product`=:id_product";          
+    $cmd = Con::PDO()->prepare($sql);
+    $cmd->bindParam(":id_product", $id_product);
+    return $cmd->execute();
+}
 // INTERNA Veriica se a imagem é do tipo desejado e menor do que 5Mb
 function checkImage($image) {
     if ($image['type'] == 'image/jpeg' || $image['type'] == 'image/jpg' || $image['type'] == 'image/png') {
