@@ -67,7 +67,6 @@ $(document).ready(function(){
             })
         }
         else
-            alert("deu ruim")
-        
+            alert("Preencha os campos inválidos corretamente!");
     });
 });
