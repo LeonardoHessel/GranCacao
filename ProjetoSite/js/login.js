@@ -1,6 +1,9 @@
-function LoginUser(email, senha) {
+function LoginUser() {
+    let email = $("#email").val()
+    let senha = $("#senha").val()
     $.post(url, { req: "login_user", email: email, pass: senha }).done(function (resp) {
         let json = $.parseJSON(resp)
+        console.log(json)
         if (json.user) {
             window.location.href = "index.html"
         }
@@ -14,10 +17,7 @@ $(document).ready(function () {
     }
 
     $("#btnAcessar").click(function () {
-        let email = $("#email").val()
-        let senha = $("#senha").val()
-        // realizar a limpeza de caractereres --------------------------------------------------
-        LoginUser(email, senha)
+        
     })
 
 
