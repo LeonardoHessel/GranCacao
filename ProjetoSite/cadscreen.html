@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTANDO BOOTSTRAP -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <!-- IMPORTANDO JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- IMPORANDO FONT LOBSTER -->
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <!-- IMPORANDO FONT BITTER -->
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+    <!-- IMPORTANDO ÍCONES -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- IMPORTNADO PÁGINA CADSCREEN.JS -->
+    <script src="js/cadscreen.js"></script>
+    <!-- IMPORTNADO PÁGINA VERIFICADORES.JS -->
+    <script src="js/verificadores.js"></script>
+    <!-- IMPORANDO CADSCREEN.CSS -->
+    <link rel="stylesheet" href="css/cadscreen.css">
+    <!-- ADICIONANDO ÍCONE PARA A PÁGINA -->
+    <link rel="icon" href="images/truffle.png">
+    <title>Cadastro</title>
+</head>
+<body class="m-0">  
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <!-- Começo Vitrine da página de cadastro -->
+            <div class="p-0 col-md-8 d-none d-lg-block">
+                <img src="images/Doce.jpg" class="img-fundo" style="left: 0px;">
+                    <div class="text-center" style="padding-top: 25vh;">
+                        <h1 class="txt-Gran">Gran Cacao</h1>
+                        <div class="barra mx-auto"> </div>
+                        <h3 class="txt-truafaria">TRUFARIA</h3>
+                        <h4 class="txt-data mx-auto">Desde 2018</h4>
+                    </div> 
+            </div>
+            <!-- Final Vitrine da página de cadastro -->
+
+            <!-- Começo da página de cadastro -->
+            <div class="col-sm-12 col-lg-4 bg-marrom" style="padding-top: 10vh;">
+                <div class="mg-config">
+                        <h1 class="txt-Gran-Mobile d-lg-none d-block">Gran Cacao</h1>
+                        <h1 class="txt-CriarConta d-none d-lg-block">Criar Conta</h1>
+                        <input type="text" class="form-control my-4" placeholder="E-Mail" id="txtEmail">
+                        <input id="txtSenha" type="password" class="form-control" placeholder="Senha">
+                        <span toggle="#txtSenha" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="txtRepetir_senha">
+                        <button type="button" class="btn-cad my-2 font-Bitter" id="btn-cadastro">Cadastrar-se</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Final da página de cadastro -->
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap" rel="stylesheet">
+    <script src="js/cadscreen.js"></script>
+    <script src="js/verificadores.js"></script>
+    <title>Cadastro/Login</title>
+</head>
+<body class="m-0">  
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <!-- Começo Vitrine da página de cadastro -->
+            <div class="p-0 col-md-8 d-none d-lg-block">
+                <img src="images/Doce.jpg" class="img-fundo" style="left: 0px;">
+                    <div class="text-center" style="padding-top: 25vh;">
+                        <h1 class="txt-Gran">Gran Cacao</h1>
+                        <div class="barra mx-auto"> </div>
+                        <h3 class="txt-truafaria">TRUFARIA</h3>
+                        <h4 class="txt-data mx-auto">Desde 2018</h4>
+                    </div> 
+            </div>
+            <!-- Final Vitrine da página de cadastro -->
+
+            <!-- Começo da página de cadastro -->
+            <div class="col-sm-12 col-lg-4 bg-marrom borda" style="padding-top: 10vh;">
+                <div class="mg-config">
+                    <h1 class="txt-Gran-Mobile d-sm-none d-block">Gran Cacao</h1>
+                    <h1 class="txt-CriarConta d-none d-lg-block">Criar Conta</h1>
+                    <input type="text" class="form-control my-4" placeholder="Nome completo" id="Nome">
+                    <input type="text" class="form-control my-4" placeholder="E-Mail" id="Email">
+                    <input id="password-field" type="password" class="form-control" placeholder="Senha">
+                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                    <input type="password" class="form-control my-4" placeholder="Repetir Senha" id="Repetir_senha">
+                    <button type="submit" class="btn-cad my-2" id="btn-cadastro">Cadastrar-se</button>
+                </div>
+            </div>
+            <!-- Final da página de cadastro -->
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    .mg-config{
+        margin-top: 10vw;
+    }
+    .borda{
+        border-left-style: solid;
+        border-color: #130e0c;
+        border-width: 3px;
+        box-shadow: 5px 1px 18px #3f2e27;
+    }
+    .bg-marrom{
+        background-color: #211814;
+    }
+    .img-fundo{
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+        position: absolute;
+        left: 5px;
+        top: 0px;
+        z-index: -1;
+        opacity: 0.5;
+    }
+    .field-icon {
+      float: right;
+      padding-right: 25px;
+      margin-top: -25px;
+    }
+
+    .btn-cad{
+        border-style: solid;
+        border-color: #150b06;
+        background-color: #5b2e1a;
+        color: white;
+        border-width: 2px;
+        border-radius: 25px;
+        max-width: auto;
+        height: 6vh;
+        box-shadow: 2px 3px #000000;
+        font-size: 18px;
+    }
+    .btn-cad:hover{
+        background-color: #662e15;
+        transition: background-color 0.5s;
+    }
+    .barra{
+        background-color: #5c3b31;
+        width: 26vw;
+        height: 8px;
+        border-radius: 50px;
+    }
+    .txt-Gran{
+        font-family: 'Lobster', cursive;
+        color: #5c3a31;
+        text-shadow: 1px 2px 2px #000000;
+        font-size: 100px;
+    }
+    .txt-Gran-Mobile{
+        font-family: 'Lobster', cursive;
+        color: #5c3a31;
+        text-shadow: 1px 2px 2px #000000;
+        font-size: 70px;
+        text-align: center;
+        margin-top:-15vh;
+
+    }
+    .txt-CriarConta{
+        font-family: 'Lobster', cursive;
+        color: #5c3a31;
+        text-shadow: 1px 2px 2px #000000;
+        font-size: 70px;
+        text-align: center;
+        margin-top:-25vh;
+    }
+    .txt-truafaria{
+        color: #5c3a31;
+        font-family: 'Bitter', serif;
+        text-shadow: 1px 2px 2px #000000;
+        font-size: 35px;
+    }
+    .txt-data{
+        color: #5c3a31;
+        font-family: 'Bitter', serif;
+        background-color: #b09e6c;
+        border-style: solid;
+        border-width: 2px;
+        border-radius: 50px;
+        width: 10vw;
+        font-size: 15px;
+        padding: 5px;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+        $(".toggle-password").click(function() {
+
+          $(this).toggleClass("fas fa-eye-slash");
+          var input = $($(this).attr("toggle"));
+
+          if (input.attr("type") == "password") {
+            input.attr("type", "text");
+
+          } else {
+            input.attr("type", "password");
+          }
+        });
+    });
+</script>
