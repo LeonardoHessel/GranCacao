@@ -50,7 +50,17 @@
 				<li class="nav-item active mx-lg-5"><a class="nav-link" href="Sobre.html">Sobre</a></li>
 				<li class="nav-item active mx-lg-5">
 					<a class="nav-link" href="Login.html" id="login">Logar</a>
-					<a class="nav-link" href="#" onclick="Logout()" id="logout">Sair</a>
+				</li>
+				<li class="nav-item dropdown" id="logout">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+						aria-haspopup="true" aria-expanded="false">Configurações</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" data-toggle="modal" data-target="#modalChangeSenha" disabled
+							hidden>Alterar Senha</a>
+						<a class="dropdown-item" data-toggle="modal" data-target="#modalAddUser">Add Usuário</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#" onclick="Logout()">Sair</a>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -87,30 +97,30 @@
 	</div>
 	<!-- CONTEUDO -->
 
-	<!-- Modal de Edição Produto-->
+	<!-- Modal Cadastro Produto-->
 	<div class="modal fade" id="modalProd" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title text-dark" id="mdTitle">Produto</h5>
 				</div>
-				<form class="" id="Product" enctype="multipart/form-data" name="Product">
+				<form class="" id="Product" enctype="multipart/form-data" name="Product" method="POST">
 					<input type="text" name="req" id="req" value="reg_product" hidden>
 					<div class="modal-body container">
 						<div class="row">
-							<div class="form-group col-10">
+							<div class="form-group col-9">
 								<input type="text" name="name" class="form-control" id="name" placeholder="nome">
 							</div>
-							<div class="form-group col-2">
+							<div class="form-group col-3">
 								<input type="text" name="id" class="form-control" id="id" value="0" disabled>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-8">
-								<input type="number" step="0.01" name="value" class="form-control" id="value"
+							<div class="form-group col-7">
+								<input type="number" step="000.01" name="value" class="form-control" id="value"
 									placeholder="valor">
 							</div>
-							<div class="form-group col-4">
+							<div class="form-group col-5">
 								<select class="form-control" name="active" id="active">
 									<option value="0">Inativo</option>
 									<option value="1">Ativo</option>
@@ -120,18 +130,18 @@
 						<div class="row">
 							<div class="form-group col-12">
 								<textarea class="form-control" id="description" placeholder="descrição"
-									name="description"></textarea>
+									name="description" rows="4"></textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-12">
-								<input type='file' name="images[]" id="images" multiple>
-								<!-- <img id="blah" src="#" width="100%" height="auto" /> -->
+								<input type='file' name="images[]" id="images">
+								<img class="pvIMG mt-2 images" height="150px">
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button id="btnCloseModal" type="button" class="btn btn-danger" data-dismiss="modal"
+						<button type="button" class="btn btn-danger btnCloseModal" data-dismiss="modal"
 							onclick="LimparCampos()">Fechar</button>
 						<input class="btn btn-success" type="submit" value="Salvar"></input>
 					</div>
@@ -139,43 +149,113 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal de Edição Produto-->
+	<!-- Modal Cadastro Produto-->
+
+	<!-- Modal Edição Produto-->
+	<div class="modal fade" id="modalEditarProduto" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-dark" id="EditTitle">Editar Produto</h5>
+				</div>
+				<form id="upd_product" enctype="multipart/form-data" name="upd_product" method="POST">
+					<input type="text" name="req" id="req" value="upd_product" hidden>
+					<div class="modal-body container">
+						<div class="row">
+							<div class="form-group col-9">
+								<input type="text" name="name" class="form-control" id="upd_name" placeholder="nome">
+							</div>
+							<div class="form-group col-3">
+								<input type="text" name="id_product" class="form-control" id="upd_id" disabled>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-7">
+								<input type="number" step="000.01" name="value" class="form-control" id="upd_value"
+									placeholder="valor">
+							</div>
+							<div class="form-group col-5">
+								<select class="form-control" name="active" id="upd_active">
+									<option value="0">Inativo</option>
+									<option value="1">Ativo</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<textarea class="form-control" placeholder="descrição" name="description"
+									id="upd_description" rows="4"></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<input type='file' name="images[]" id="upd_images">
+								<img class="pvIMG mt-2" src="" width="100%">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning " id="btnDelIMG" disabled>Deletar Imagem</button>
+						<button type="button" class="btn btn-danger btnCloseModal" data-dismiss="modal">Fechar</button>
+						<input class="btn btn-success" type="submit" value="Salvar"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Edição Produto-->
+
+	<!-- Modal upd_user-->
+	<div class="modal fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-dark">Alterar Senha</h5>
+				</div>
+				<form id="reg_user" enctype="multipart/form-data" name="reg_user" method="POST">
+					<input type="text" name="req" id="req" value="reg_user" hidden>
+					<div class="modal-body container">
+						<div class="row">
+							<div class="form-group col-12">
+								<input type="text" name="name" class="form-control" placeholder="nome">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<input type="email" name="email" class="form-control" placeholder="email">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<input type="password" name="pass" class="form-control" placeholder="senha">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-12">
+								<input type="password" name="pass" class="form-control" placeholder="repita a senha">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger btnCloseModal btnCloseModal"
+							data-dismiss="modal">Fechar</button>
+						<input class="btn btn-success " type="submit" value="Salvar"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal upd_user-->
+
+
+	<footer id="footer" class="text-center">
+		<a href="https://www.facebook.com/gran.cacao.7" class="btn btn-social-icon mx-auto"><span
+				class="fa fa-facebook"></span></a>
+		<a href="https://www.instagram.com/_gran.cacao/?hl=pt-br" class="btn btn-social-icon mx-auto"><span
+				class="fa fa-instagram"></span></a>
+		<br>
+		<h6 class="text-light">© Copyright - Todos os direitos reservados para GranCacao</h6>
+	</footer>
 </body>
-<footer id="footer" class="text-center">
-	<a href="https://www.facebook.com/gran.cacao.7" class="btn btn-social-icon mx-auto"><span
-			class="fa fa-facebook"></span></a>
-	<a href="https://www.instagram.com/_gran.cacao/?hl=pt-br" class="btn btn-social-icon mx-auto"><span
-			class="fa fa-instagram"></span></a>
-	<br>
-	<h6 class="text-light">© Copyright - Todos os direitos reservados para GranCacao</h6>
-</footer>
 
 </html>
-<script>
-	$(document).ready(function () {
-		function readURL(input) {
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-
-				reader.onload = function (e) {
-					$('#blah').attr('src', e.target.result);
-				}
-
-				reader.readAsDataURL(input.files[0]); // convert to base64 string
-			}
-		}
-
-		$("#imgInp").change(function () {
-			readURL(this);
-		});
-
-		$("#btnCloseModal").click(function () {
-			$('#blah').attr('src', "#");
-			$('#lblNomeProduto').val(" ");
-			$('#lblDescricao').val(" ");
-		});
-		$("#btnSalvarModal").click(function () {
-			// FAZER O CÓDIGO DO ENVIO DOS ARQUIVOS PARA A PARTE DOS CARS
-		});
-	});
-</script>

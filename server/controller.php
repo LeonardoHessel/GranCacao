@@ -306,10 +306,12 @@ function ctrlRegProduct() {
     if (checkUser()) {
         extract($_POST);
         extract($_FILES);
-        if (isset($name,$value,$description)) {
+        if (isset($name,$value,$description,$active)) {
             $name = htmlspecialchars($name);
             $value = htmlspecialchars($value);
             $description = htmlspecialchars($description);
+            $active = htmlspecialchars($active);
+            $active = toBool($active);
             if (isset($id_group) && !empty($id_group)) {
                 $id_group = htmlspecialchars($id_group);
                 $group = getProdGroupByID($id_group);
@@ -321,7 +323,7 @@ function ctrlRegProduct() {
                 $id_group = null;
                 $resp["message"] = "Product was registered without a group";
             }
-            $insert = regProduct($name,$value,$description,$id_group);
+            $insert = regProduct($name,$value,$description,$id_group,$active);
             if ($insert) {
                 $id_product = getLastInsertedID();
                 $resp["reg_product"] = true;
@@ -342,7 +344,6 @@ function ctrlRegProduct() {
                             
                         }
                     }
-                    //toJSON($resp);
                 }
                 $resp["product"] = getProduct($id_product);
             } else {
@@ -351,7 +352,7 @@ function ctrlRegProduct() {
             }
         } else {
             $resp["reg_product"] = false;
-            $resp["message"] = "Undefined Variable for Name and/or Value and/or Description";
+            $resp["message"] = "Undefined Variable for Name and/or Value and/or Description and/or Active status";
         }
         toJSON($resp);
     }
@@ -395,6 +396,7 @@ function ctrlGetProduct() {
 function ctrlUpdProduct() {
     if (checkUser()) {
         extract($_POST);
+        extract($_FILES);
         if (isset($id_product,$name,$value,$description,$active)){
             $id_product = htmlspecialchars($id_product);
             $name = htmlspecialchars($name);
@@ -414,6 +416,23 @@ function ctrlUpdProduct() {
                 $resp["message"] = "Product has been updated without a group";
             }
             if(is_object(getProduct($id_product))) {
+                if (isset($images) && !empty($images['name'][0])){
+                    delProdImageByProduct($id_product);
+                    for ($i=0; $i < sizeof($images['name']); $i++) {
+                        $img['name'] = $images['name'][$i];
+                        $img['type'] = $images['type'][$i];
+                        $img['tmp_name'] = $images['tmp_name'][$i];
+                        $img['error'] = $images['error'][$i];
+                        $img['size'] = $images['size'][$i];
+                        $imgs[] = $img;
+                    }
+                    foreach ($imgs as $img) {
+                        if(checkImage($img)){
+                            $fileName = renameResizeAndSaveImage($img);
+                            dbRegProdImage($id_product,$fileName);
+                        }
+                    }
+                }
                 $update = updProduct($id_product,$name,$value,$description,$id_group,$active);
                 if ($update) {
                     $resp["upd_product"] = true;

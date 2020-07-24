@@ -227,13 +227,14 @@ function delProdGroup($id_group) {
 
 // ----- Produtos ----- //
 // Cadastra um produto.
-function regProduct($name,$value,$description,$id_group) {
-    $sql = 'INSERT INTO `product` VALUES (0,:name,:value,:description,:id_group,TRUE)';
+function regProduct($name,$value,$description,$id_group,$active) {
+    $sql = 'INSERT INTO `product` VALUES (0,:name,:value,:description,:id_group,:active)';
     $cmd = Con::PDO()->prepare($sql);
     $cmd->bindParam(':name',$name);
     $cmd->bindParam(':value',$value);
     $cmd->bindParam(':description',$description);
     $cmd->bindParam(':id_group',$id_group);
+    $cmd->bindParam(':active',$active);
     return $cmd->execute();
 }
 // Retorna todos os Produtos

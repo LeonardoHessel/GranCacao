@@ -3,6 +3,43 @@ $(document).ready(function () {
     CarregarProdutos()
 })
 
+function cardProduto(prod, user) {
+    let html = ''
+    // Se o Produto estiver ativo ou se o usuario estiver logado
+    if (prod.active == '1' || user) {
+        let info
+        prod.active != '1' ? info = "(Inativo)" : info = ''
+        html += `
+        <div div class="col-xl-3 col-lg-6 mt-5">
+            <div class="bg-brown">
+                <h3 class="responsive text-center">${prod.name + ' ' + info}</h3>`
+        // Verifica se o produto possui foto
+        if (prod.images.length > 0) {
+            let img = prod.images[0]
+            html += `<img src="${urlImg + img.address}" alt="${img.id_image + '.' + img.id_product}" class="img-card mb-2 rounded">`
+        }
+        html += `
+        <div class="d-flex justify-content-end">
+            <h4>$ ${prod.value}</h4>
+        </div>
+        <p>${prod.description}</p>
+        `
+        if (user) {
+            html += `
+            <div class="d-flex justify-content-between">
+                <button class="btn" data-toggle="modal" data-target="#modalEditarProduto" onclick="EditarProduct(${prod.id_product})">
+                    <i class="text-primary material-icons" aria-hidden="true">mode_edit</i>
+                </button>
+                <button class="btn" onclick="DeleteProduct(${prod.id_product})">
+                    <i class="material-icons text-danger" aria-hidden="true">delete</i>
+                </button>
+            </div>`
+        }
+        html += `</div></div>`
+    }
+    return html
+}
+
 function CarregarProdutos() {
     let user = false
     user = CheckUser()
@@ -12,45 +49,8 @@ function CarregarProdutos() {
         if (json.all_products) {
             $("#cardapio").html("")
             json.products.forEach(prod => {
-                // Se o Produto estiver ativo ou se o usuario estiver logado
-                if (prod.active == '1' || user) {
-                    html += `
-                    <div div class="col-xl-3 col-lg-6 mt-5">
-                        <div class="bg-brown">
-                            <h3 class="responsive text-center">${prod.name}</h3>`
-                    // Verifica se o produto possui foto
-                    if (prod.images.length > 0) {
-                        // Abre a div do carrossel
-                        html += `
-                        <div id="imgsProd${prod.id_product}" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">`
-                        // Para cada foto que for gerar e se for a primeira ira receber a classe active
-                        for (let i = 0; i < prod.images.length; i++) {
-                            let a
-                            i == 0 ? a = 'active' : a = ''
-                            const img = prod.images[i]
-                            html += `
-                            <div class="carousel-item ${a}">
-                                <img class="d-block" height="auto" width="100%" src="http://grancacao/image/${img.address}" alt="${img.id_image + '.' + img.id_product}">
-                            </div>`
-                        }
-                        // Fecha a div do carrossel
-                        html += `</div></div>`
-                    }
-                    html += `<p>${prod.description}</p> `
-                    if (user) {
-                        html += `
-                            <div class="d-flex justify-content-between">
-                                <button class="btn" data-toggle="modal" data-target="#modalProd" onclick="EditarProduct(${prod.id_product})">
-                                    <i class="text-primary material-icons" aria-hidden="true">mode_edit</i>
-                                </button>
-                                <button class="btn" onclick="DeleteProduct(${prod.id_product})">
-                                    <i class="material-icons text-danger" aria-hidden="true">delete</i>
-                                </button>
-                            </div>`
-                    }
-                    html += `</div ></div >`
-                }
+                // Monta os card dos Produtos
+                html += cardProduto(prod, user)
             })
         }
         if (user) {
@@ -61,7 +61,7 @@ function CarregarProdutos() {
                         <i class="fa fa-plus text-light" aria-hidden="true"></i>
                     </button>
                 </div>
-			</div>`
+			</div> `
         }
         $("#cardapio").html(html)
     })
@@ -87,18 +87,38 @@ function EditarProduct(id_product) {
     $.post(url, { req: "get_product", id_product: id_product }).done(function (resp) {
         let json = $.parseJSON(resp)
         if (json.product != null) {
-            LimparCampos()
+            updLimparCampos()
+            $('#btnDelIMG').prop('disabled', true)
             let prod = json.product
-            $('#name').val(prod.name)
-            $('#id').val(prod.id_product)
-            $('#value').val(prod.value)
-            $('#active').val(prod.active)
-            $('#description').val(prod.description)
-        } else {
-            // console.log(json)
+            $('#upd_name').val(prod.name)
+            $('#upd_id').val(prod.id_product)
+            $('#upd_value').val(prod.value)
+            $('#upd_active').val(prod.active)
+            $('#upd_description').val(prod.description)
+            if (prod.images.length > 0) {
+                $('#btnDelIMG').prop('disabled', false)
+                $("#btnDelIMG").attr("onclick", `DelIMG(${prod.images[0].id_image})`);
+                $('.pvIMG').attr('src', urlImg + prod.images[0].address)
+            } else {
+                $('.pvIMG').attr('src', '')
+            }
+
         }
     })
-    LimparCampos()
+}
+
+function DelIMG(id_image) {
+    $.post(url, { req: "del_prod_image", id_image: id_image }).done(function (resp) {
+        let json = $.parseJSON(resp)
+        if (json.del_image) {
+            CarregarProdutos()
+            $('.btnCloseModal').click()
+        } else {
+            CarregarProdutos()
+            alert("falha ao deletar Imagem")
+            console.log(json)
+        }
+    })
 }
 
 function LimparCampos() {
@@ -107,6 +127,22 @@ function LimparCampos() {
     $('#value').val('')
     $('#active').val("0")
     $('#description').val('')
+    $('#images').val('')
+    $('.images').val('')
+    $('#upd_images').val('')
+    $('.pvIMG').attr('src', '')
+}
+
+function updLimparCampos() {
+    $('#upd_name').val('')
+    $('#upd_id').val(0)
+    $('#upd_value').val('')
+    $('#upd_active').val("0")
+    $('#upd_description').val('')
+    $('#upd_images').val('')
+    $('#images').val('')
+    $('.images').val('')
+    $('.pvIMG').attr('src', '')
 }
 
 
